@@ -2,7 +2,7 @@ PImage map;
 PVector location = new PVector();
 void setup() {
     size(800, 800);
-    map = loadImage("pic.jpg");
+    map = loadImage("pic.png");
 }
 void draw() {
     pushMatrix();
