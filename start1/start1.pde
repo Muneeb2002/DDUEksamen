@@ -9,7 +9,7 @@ int playerDia = 24;
 ArrayList<PVector> felter = new ArrayList<PVector>();
 PVector pos;
 Table table;
-int movementSpeed = 4;
+int movementSpeed = 2;
 void setup() {
     size(800, 800);
     map = loadImage("pic.png");
@@ -72,16 +72,36 @@ void move() {
     }
 }
 void collision() {
+    dirUp = true; 
+    dirLeft = true; 
+    dirRight = true; 
+    dirDown = true;
     for (int j =0; j<felter.size(); j++) { 
+
         //UP
-            if(width/2-location.x > ){
-                
-            }
-       /*if (width/2-location.x > felter.get(j).x*24-playerDia/2 && width/2-location.x < felter.get(j).x*24 + squareSize + playerDia/2 
+        if (width/2-location.x > felter.get(j).x*24-playerDia/2 && width/2-location.x < felter.get(j).x*24 + squareSize + playerDia/2
+            && height/2-location.y > felter.get(j).y*24-playerDia/2 && height/2-location.y < felter.get(j).y*24 + squareSize + playerDia/2+1) {
+            dirUp = false;
+        }
+        //Down
+        if (width/2-location.x > felter.get(j).x*24-playerDia/2 && width/2-location.x < felter.get(j).x*24 + squareSize + playerDia/2
+            && height/2-location.y > felter.get(j).y*24-playerDia/2-1 && height/2-location.y < felter.get(j).y*24 + squareSize + playerDia/2) {
+            dirDown = false;
+        }
+        //Left
+        if (width/2-location.x > felter.get(j).x*24-playerDia/2 && width/2-location.x < felter.get(j).x*24 + squareSize + playerDia/2+1
             && height/2-location.y > felter.get(j).y*24-playerDia/2 && height/2-location.y < felter.get(j).y*24 + squareSize + playerDia/2) {
-            println("dd");
-            
-        }*/
+            dirLeft = false;
+        }
+        if (width/2-location.x > felter.get(j).x*24-playerDia/2-1 && width/2-location.x < felter.get(j).x*24 + squareSize + playerDia/2
+            && height/2-location.y > felter.get(j).y*24-playerDia/2 && height/2-location.y < felter.get(j).y*24 + squareSize + playerDia/2) {
+            dirRight = false;            
+        }
+        /*if (width/2-location.x > felter.get(j).x*24-playerDia/2 && width/2-location.x < felter.get(j).x*24 + squareSize + playerDia/2 
+         && height/2-location.y > felter.get(j).y*24-playerDia/2 && height/2-location.y < felter.get(j).y*24 + squareSize + playerDia/2) {
+         println("dd");
+         
+         }*/
     }
 }
 
@@ -94,6 +114,6 @@ void coords() {
     }
 }
 
-void mousePressed(){
- println("");   
+void mousePressed() {
+    println("");
 }
