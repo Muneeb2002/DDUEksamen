@@ -3,7 +3,7 @@ ArrayList<PVector> coord = new ArrayList<PVector>();
 PVector location = new PVector();
 int alpha = 0;
 int squareSize = 24; 
-
+boolean dirUp = true, dirLeft = true, dirRight = true, dirDown = true;
 int playerDia = 24;
 
 ArrayList<PVector> felter = new ArrayList<PVector>();
@@ -33,10 +33,6 @@ void draw() {
         for (int j =0; j<felter.size(); j++) {
             alpha = 0;
 
-            /*if (coord.get(i).x<mouseX-location.x && mouseX-location.x<coord.get(i).x + squareSize && coord.get(i).y<mouseY-location.y && mouseY-location.y-squareSize<coord.get(i).y && mousePressed) {
-             alpha = 255;
-             }*/
-
             if (coord.get(i).x/squareSize == felter.get(j).x && coord.get(i).y/squareSize == felter.get(j).y) {
                 alpha=255;
             }
@@ -61,27 +57,31 @@ void draw() {
 
 void move() {
     if (keyPressed) {
-        if (key == 'a') {
+        if (key == 'a' && dirLeft) {
             location.x+=movementSpeed;
         }
-        if (key == 'd') {
+        if (key == 'd' && dirRight) {
             location.x-=movementSpeed;
         }
-        if (key == 'w') {
+        if (key == 'w' && dirUp) {
             location.y+=movementSpeed;
         }
-        if (key == 's') {
+        if (key == 's' && dirDown) {
             location.y-=movementSpeed;
         }
     }
 }
 void collision() {
     for (int j =0; j<felter.size(); j++) { 
-       if (width/2-location.x > felter.get(j).x*24-playerDia/2 && width/2-location.x < felter.get(j).x*24 + squareSize + playerDia/2 
+        //UP
+            if(width/2-location.x > ){
+                
+            }
+       /*if (width/2-location.x > felter.get(j).x*24-playerDia/2 && width/2-location.x < felter.get(j).x*24 + squareSize + playerDia/2 
             && height/2-location.y > felter.get(j).y*24-playerDia/2 && height/2-location.y < felter.get(j).y*24 + squareSize + playerDia/2) {
             println("dd");
             
-        }
+        }*/
     }
 }
 
