@@ -93,9 +93,4 @@ void coords() {
 
 void mousePressed() {
     println("");
-    /*if (showFelter) {
-        showFelter = false;
-    } else {
-        showFelter = true;
-    }*/
 }
