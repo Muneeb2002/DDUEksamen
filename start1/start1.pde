@@ -46,7 +46,6 @@ void images() {
     map = loadImage("pic.png");
     map.resize(map.width*2, map.height*2);
     squareSize = map.width/105;
-    println(squareSize);
 }
 void draw() {
     pushMatrix();
@@ -97,7 +96,6 @@ void mousePressed() {
             n.speechOf++;   
             n.speechIsFinished = false;
             n.counter = 0;
-            println(n.counter);
             n.counterInc = 1;
         }
     }
