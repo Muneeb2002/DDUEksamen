@@ -34,13 +34,13 @@ void NPCTables() {
         felter.add(pos);
     }
     NPCQuestTable = loadTable("NPCSpeech.csv", "header");
-    for (int i = 0; i < npc.size(); i++) {
-        for (TableRow row : NPCQuestTable.rows()) {
-            if (npc.get(i).id == row.getInt("NPCid")) {
-                npc.get(i).speech.add(new ArrayList());
-            }
-        }
-    }
+    /* for (int i = 0; i < npc.size(); i++) {
+     for (TableRow row : NPCQuestTable.rows()) {
+     if (npc.get(i).id == row.getInt("NPCid")) {
+     npc.get(i).speech.add(new ArrayList());
+     }
+     }
+     }*/
 }
 void images() {
     map = loadImage("pic.png");
@@ -67,7 +67,6 @@ void draw() {
     }
     for (int i = 0; i < npc.size(); i++) {
         npc.get(i).display();
-        
     }
     translate(width/2, height/2);
     player.display();
@@ -93,4 +92,13 @@ void coords() {
 
 void mousePressed() {
     println("");
+    for (NPC n : npc) {
+        if (n.speechIsFinished) {
+            n.speechOf++;   
+            n.speechIsFinished = false;
+            n.counter = 0;
+            println(n.counter);
+            n.counterInc = 1;
+        }
+    }
 }

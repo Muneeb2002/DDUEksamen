@@ -5,7 +5,7 @@ class Player {
 
     float playerDia = squareSize*0.75;
     int movementSpeed = 4;
-
+    int QuestNumber = 1;
 
     Player() {
     }
@@ -69,7 +69,7 @@ void npcProx(int j) {
         if (felter.get(j).x == npc.get(i).NPClocation.x && felter.get(j).y == npc.get(i).NPClocation.y) {
             for (TableRow row : NPCQuestTable.rows()) {
                 if (npc.get(i).id == row.getInt("NPCid") && npc.get(i).once) {
-                    npc.get(i).speech(row.getString("nonQuestString"));
+                    npc.get(i).Speech();
                 }
             }
         }
@@ -110,4 +110,6 @@ void keyReleased() {
         player.movedirDown=false;
     }
     player.keyIsPressed=false;
+    
+    
 }
