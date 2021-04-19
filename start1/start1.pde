@@ -14,6 +14,7 @@ PVector pos;
 Table obstacleTable;
 Table NPCTable;
 Table NPCQuestTable;
+Table questTable;
 
 boolean showFelter;
 
@@ -22,11 +23,11 @@ void setup() {
     images();
 
     coords();
-    NPCTables();
+    npc = new ArrayList<NPC>();
+    Tables();
     player = new Player();
 }
-void NPCTables() {
-    npc = new ArrayList<NPC>();
+void Tables() { 
     NPCTable = loadTable("NPCID.csv", "header");
     for (TableRow row : NPCTable.rows()) {
         npc.add(new NPC(row.getInt("id"), row.getInt("x"), row.getInt("y")));
@@ -34,13 +35,7 @@ void NPCTables() {
         felter.add(pos);
     }
     NPCQuestTable = loadTable("NPCSpeech.csv", "header");
-    /* for (int i = 0; i < npc.size(); i++) {
-     for (TableRow row : NPCQuestTable.rows()) {
-     if (npc.get(i).id == row.getInt("NPCid")) {
-     npc.get(i).speech.add(new ArrayList());
-     }
-     }
-     }*/
+    questTable = loadTable("Quests.csv", "header");
 }
 void images() {
     map = loadImage("pic.png");
@@ -91,12 +86,4 @@ void coords() {
 
 void mousePressed() {
     println("");
-    for (NPC n : npc) {
-        if (n.speechIsFinished) {
-            n.speechOf++;   
-            n.speechIsFinished = false;
-            n.counter = 0;
-            n.counterInc = 1;
-        }
-    }
 }

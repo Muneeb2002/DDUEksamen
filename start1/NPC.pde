@@ -8,6 +8,7 @@ class NPC {
     boolean once = true;
     String speech = "";
     boolean speechIsFinished;
+    boolean isTalking;
     NPC(int id_, int locX, int locY) {
         NPClocation = new PVector(locX, locY);
         id = id_;
@@ -23,19 +24,28 @@ class NPC {
         fill(255);
         rect(0, height*0.55, width, height*0.45);
         for (TableRow row : NPCQuestTable.rows()) {
-            if (row.getInt("questRelated") == 1) {
-                if (row.getInt("questNumber") == player.QuestNumber && row.getInt("NPCid") == id) {
-                    if (row.getInt("number") <= row.getInt("of") && speechOf == row.getInt("number") && speechIsFinished == false) {
+            if (isTalking == false) {
+                if (row.getInt("questRelated") == 1 && row.getInt("questNumber") == player.QuestNumber && speechIsFinished == false) {
+                    if (row.getInt("NPCid") == id) {
+                        println(speechOf+", "+row.getInt("number"));
+                        if (row.getInt("number") <= row.getInt("of") && speechOf == row.getInt("number")) {
+
+                            if ( row.getInt("start") == 1) {
+                                player.questActive = true;
+                            }
+                        }
                         speech = row.getString("questString");
+                        isTalking = true;
                     }
                 }
-            } else if (row.getInt("questRelated") == 0 && row.getInt("NPCid") == id && speechIsFinished == false && row.getInt("questNumber") == 0) {
+            } else if (row.getInt("questRelated") == 0 && row.getInt("NPCid") == id && speechIsFinished == false) {
 
                 speech = row.getString("nonQuestString");
+                isTalking = true;
             }
         }
 
-        counter+=counterInc;
+
         if (counter <= speech.length()) {
             fill(0);
             textSize(20);
@@ -44,11 +54,19 @@ class NPC {
             if (counter == speech.length()) {
                 counterInc=0;
                 speechIsFinished = true;
+                isTalking = false;
             }
         }
+        counter+=counterInc;
 
-        if (mousePressed && speechIsFinished == false) {
+        if (mousePressed && speechIsFinished) {
             //    counter = speech.length()-1;
+            if (speechIsFinished) {
+                speechOf++;   
+                speechIsFinished = false;
+                counter = 0;
+                counterInc = 1;
+            }
         }
 
         //println(counter);

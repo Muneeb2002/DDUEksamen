@@ -2,10 +2,12 @@ class Player {
 
     boolean dirUp, dirLeft, dirRight, dirDown;
     boolean movedirUp, movedirLeft, movedirRight, movedirDown, keyIsPressed;
+    boolean questActive;
 
     float playerDia = squareSize*0.75;
     int movementSpeed = 4;
     int QuestNumber = 1;
+    int questComp = 0;
 
     Player() {
     }
@@ -66,7 +68,9 @@ class Player {
                     if (dirRight && dirLeft && dirDown && dirUp) {
                         npc.get(i).counter = 0;
                         npc.get(i).speechOf = 1;
-                       
+                        npc.get(i).counterInc = 1;
+                        npc.get(i).speechIsFinished = false;
+                         npc.get(i).isTalking = false;
                     }
                 }
             }
