@@ -82,6 +82,7 @@ class Player {
             if (felter.get(j).x == npc.get(i).NPClocation.x && felter.get(j).y == npc.get(i).NPClocation.y) {
                 if (npc.get(i).NPClocation.x  == shop.shopLocation.x && npc.get(i).NPClocation.y == shop.shopLocation.y ){
                     shop.display();
+                    shop.itemBuy();
                 } else{
 
                 for (TableRow row : NPCQuestTable.rows()) {
