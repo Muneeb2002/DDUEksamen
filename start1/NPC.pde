@@ -26,39 +26,39 @@ class NPC {
         for (TableRow row : NPCQuestTable.rows()) {
             if (isTalking == false) {
                 if (row.getInt("questRelated") == 1 && row.getInt("questNumber") == player.QuestNumber && speechIsFinished == false) {
+                    println(true);
                     if (row.getInt("NPCid") == id) {
                         //println(speechOf+", "+row.getInt("number"));
                         if (row.getInt("number") <= row.getInt("of") && speechOf == row.getInt("number")) {
-                            if ( row.getInt("start")-1 == player.questComp &&  row.getInt("start")-1 == 0 ) {
+                            if ( row.getInt("start")-1 == player.questComp &&  row.getInt("start")-1 == 0 && player.questActive == false) {
                                 player.questActive = true;
                                 player.questComp = row.getInt("start");
                                 speech = row.getString("questString");
-                                println("Quest Begun");
+                                //println("Quest Begun");
                             } 
                             if ( (row.getInt("start")-1 == player.questComp || row.getInt("start") < player.questComp ) && player.questActive) {
-                                speech = row.getString("questString");
+                                if (row.getInt("start")-1 == player.questComp) {
+                                    speech = row.getString("questString");
+                                }
                                 player.questComp = row.getInt("start");
-                                
                             }
 
                             if (player.questComp == row.getInt("outOf") && player.questActive) {
                                 speech = row.getString("questString");
                                 player.questActive = false;
-                                println(player.QuestNumber);
-                                player.QuestNumber =row.getInt("questNumber")+1;
-                                println(player.QuestNumber); 
-                                println("Quest Ended");
+                                player.QuestNumber++;
+                                // println("Quest Ended");
                                 player.questComp = 0;
                             }
                         }
 
                         isTalking = true;
                     }
-                }
-            } else if (row.getInt("questRelated") == 0 && row.getInt("NPCid") == id && speechIsFinished == false) {
+                } else if (row.getInt("questRelated") == 0 && row.getInt("NPCid") == id && speechIsFinished == false) {
 
-                speech = row.getString("nonQuestString");
-                isTalking = true;
+                    speech = row.getString("nonQuestString");
+                    isTalking = true;
+                }
             }
         }
 
