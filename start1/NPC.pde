@@ -59,6 +59,10 @@ class NPC {
                     speech = row.getString("nonQuestString");
                     isTalking = true;
                 }
+            } else if (row.getInt("questRelated") == 0 && row.getInt("NPCid") == id && speechIsFinished == false) {
+
+                speech = row.getString("nonQuestString");
+                isTalking = true;
             }
         }
 
