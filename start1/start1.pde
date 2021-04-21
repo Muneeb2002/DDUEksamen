@@ -16,6 +16,7 @@ Table obstacleTable;
 Table NPCTable;
 Table NPCQuestTable;
 Table questTable;
+Table itemsTable;
 
 boolean showFelter;
 
@@ -42,6 +43,7 @@ void Tables() {
   }
   NPCQuestTable = loadTable("NPCSpeech.csv", "header");
   questTable = loadTable("Quests.csv", "header");
+  itemsTable = loadTable("items.csv","header");
 }
 void images() {
   map = loadImage("pic.png");
