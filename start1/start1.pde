@@ -1,4 +1,5 @@
 Player player; //<>//
+Shop shop;
 ArrayList<NPC> npc;
 
 PImage map;
@@ -24,6 +25,7 @@ void setup() {
 
     coords();
     npc = new ArrayList<NPC>();
+    
     Tables();
     player = new Player();
 }
@@ -33,6 +35,11 @@ void Tables() {
         npc.add(new NPC(row.getInt("id"), row.getInt("x"), row.getInt("y")));
         pos =  new PVector(row.getInt("x"), row.getInt("y")); 
         felter.add(pos);
+        if(row.getInt("shop") == 1){
+            shop = new Shop(row.getInt("x"), row.getInt("y"));
+
+        }
+
     }
     NPCQuestTable = loadTable("NPCSpeech.csv", "header");
     questTable = loadTable("Quests.csv", "header");

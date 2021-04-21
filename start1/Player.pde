@@ -80,10 +80,15 @@ class Player {
     void npcProx(int j) {
         for (int i = 0; i < npc.size(); i++) {
             if (felter.get(j).x == npc.get(i).NPClocation.x && felter.get(j).y == npc.get(i).NPClocation.y) {
+                if (npc.get(i).NPClocation.x  == shop.shopLocation.x && npc.get(i).NPClocation.y == shop.shopLocation.y ){
+                    shop.display();
+                } else{
+
                 for (TableRow row : NPCQuestTable.rows()) {
                     if (npc.get(i).id == row.getInt("NPCid")) {
                         npc.get(i).Speech();
                     }
+                }
                 }
             }
         }
