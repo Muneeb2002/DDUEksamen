@@ -1,4 +1,6 @@
-Player player; //<>//
+Player player;
+Shop shop;
+Penge penge;
 ArrayList<NPC> npc;
 
 PImage map;
@@ -14,91 +16,90 @@ PVector pos;
 Table obstacleTable;
 Table NPCTable;
 Table NPCQuestTable;
+Table questTable;
+Table itemsTable;
 
 boolean showFelter;
 
 void setup() {
-    size(800, 800);
-    images();
+  size(800, 800);
+  images();
 
-    coords();
-    NPCTables();
-    player = new Player();
+  coords();
+  npc = new ArrayList<NPC>();
+
+  Tables();
+  shop.shopItemsCoords_();
+  player = new Player();
+  penge = new Penge (150);
 }
-void NPCTables() {
-    npc = new ArrayList<NPC>();
-    NPCTable = loadTable("NPCID.csv", "header");
-    for (TableRow row : NPCTable.rows()) {
-        npc.add(new NPC(row.getInt("id"), row.getInt("x"), row.getInt("y")));
-        pos =  new PVector(row.getInt("x"), row.getInt("y")); 
-        felter.add(pos);
+void Tables() { 
+  NPCTable = loadTable("NPCID.csv", "header");
+  for (TableRow row : NPCTable.rows()) {
+    npc.add(new NPC(row.getInt("id"), row.getInt("x"), row.getInt("y")));
+    pos =  new PVector(row.getInt("x"), row.getInt("y")); 
+    felter.add(pos);
+    if (row.getInt("shop") == 1) {
+      shop = new Shop(row.getInt("x"), row.getInt("y"));
     }
-    NPCQuestTable = loadTable("NPCSpeech.csv", "header");
-    /* for (int i = 0; i < npc.size(); i++) {
-     for (TableRow row : NPCQuestTable.rows()) {
-     if (npc.get(i).id == row.getInt("NPCid")) {
-     npc.get(i).speech.add(new ArrayList());
-     }
-     }
-     }*/
+  }
+  NPCQuestTable = loadTable("NPCSpeech.csv", "header");
+  questTable = loadTable("Quests.csv", "header");
+  itemsTable = loadTable("items.csv","header");
 }
 void images() {
-    map = loadImage("pic.png");
-    map.resize(map.width*2, map.height*2);
-    squareSize = map.width/105;
-    println(squareSize);
+  map = loadImage("pic.png");
+  map.resize(map.width*2, map.height*2);
+  squareSize = map.width/105;
 }
 void draw() {
-    pushMatrix();
-    image(map, location.x, location.y);
-    if (showFelter) {
-        for (int i =0; i<coord.size(); i++) {
+  pushMatrix();
+  image(map, location.x, location.y);
+  if (showFelter) {
+    for (int i =0; i<coord.size(); i++) {
 
-            for (int j =0; j<felter.size(); j++) {
-                alpha = 0;
+      for (int j =0; j<felter.size(); j++) {
+        alpha = 0;
 
-                if (coord.get(i).x/squareSize == felter.get(j).x && coord.get(i).y/squareSize == felter.get(j).y) {
-                    alpha=255;
-                    fill(255, 105, 180, alpha);
-                    square(coord.get(i).x+location.x, coord.get(i).y+location.y, squareSize);
-                }
-            }
+        if (coord.get(i).x/squareSize == felter.get(j).x && coord.get(i).y/squareSize == felter.get(j).y) {
+          alpha=255;
+          fill(255, 105, 180, alpha);
+          square(coord.get(i).x+location.x, coord.get(i).y+location.y, squareSize);
         }
+      }
     }
-    for (int i = 0; i < npc.size(); i++) {
-        npc.get(i).display();
-    }
-    translate(width/2, height/2);
-    player.display();
+  }
+  for (int i = 0; i < npc.size(); i++) {
+    npc.get(i).display();
+  }
+  translate(width/2, height/2);
+  player.display();
 
-    popMatrix();
-    player.collision();
-    player.move();
+  popMatrix();
+  penge.display();
+  player.collision();
+  player.move();
 }
 
 void coords() {
-    obstacleTable = loadTable("felter.csv", "header");
-    for (TableRow row : obstacleTable.rows()) {
-        pos =  new PVector(row.getInt("x"), row.getInt("y")); 
-        felter.add(pos);
-    }
-    for (int i = 0; i<map.width; i+=squareSize) {
+  obstacleTable = loadTable("felter.csv", "header");
+  for (TableRow row : obstacleTable.rows()) {
+    pos =  new PVector(row.getInt("x"), row.getInt("y")); 
+    felter.add(pos);
+  }
+  for (int i = 0; i<map.width; i+=squareSize) {
 
-        for (int j = 0; j<map.height; j+=squareSize) {
-            coord.add(new PVector(i, j));
-        }
+    for (int j = 0; j<map.height; j+=squareSize) {
+      coord.add(new PVector(i, j));
     }
+  }
 }
 
 void mousePressed() {
-    println("");
-    for (NPC n : npc) {
-        if (n.speechIsFinished) {
-            n.speechOf++;   
-            n.speechIsFinished = false;
-            n.counter = 0;
-            println(n.counter);
-            n.counterInc = 1;
-        }
-    }
+  //println("");
+}
+void mouseReleased() {
+  if (shop.mouseRel) {
+    shop.mouseRel=false;
+  }
 }

@@ -30,6 +30,7 @@ PVector pos;
 Table obstacleTable;
 Table NPCTable;
 Table NPCQuestTable;
+Table questTable;
 
 boolean showFelter;
 
@@ -38,11 +39,11 @@ public void setup() {
     images();
 
     coords();
-    NPCTables();
+    npc = new ArrayList<NPC>();
+    Tables();
     player = new Player();
 }
-public void NPCTables() {
-    npc = new ArrayList<NPC>();
+public void Tables() { 
     NPCTable = loadTable("NPCID.csv", "header");
     for (TableRow row : NPCTable.rows()) {
         npc.add(new NPC(row.getInt("id"), row.getInt("x"), row.getInt("y")));
@@ -50,19 +51,12 @@ public void NPCTables() {
         felter.add(pos);
     }
     NPCQuestTable = loadTable("NPCSpeech.csv", "header");
-    for (int i = 0; i < npc.size(); i++) {
-        for (TableRow row : NPCQuestTable.rows()) {
-            if (npc.get(i).id == row.getInt("NPCid")) {
-                npc.get(i).speech.add(new ArrayList());
-            }
-        }
-    }
+    questTable = loadTable("Quests.csv", "header");
 }
 public void images() {
     map = loadImage("pic.png");
     map.resize(map.width*2, map.height*2);
     squareSize = map.width/105;
-    println(squareSize);
 }
 public void draw() {
     pushMatrix();
@@ -83,7 +77,6 @@ public void draw() {
     }
     for (int i = 0; i < npc.size(); i++) {
         npc.get(i).display();
-        
     }
     translate(width/2, height/2);
     player.display();
@@ -112,12 +105,15 @@ public void mousePressed() {
 }
 class NPC {
     PVector NPClocation;
-    ArrayList<ArrayList> speech = new ArrayList<ArrayList>();
     float NPCDia = squareSize;
     int id;
     int counter = 0;
     int counterInc = 1;
+    int speechOf = 1;
     boolean once = true;
+    String speech = "";
+    boolean speechIsFinished;
+    boolean isTalking;
     NPC(int id_, int locX, int locY) {
         NPClocation = new PVector(locX, locY);
         id = id_;
@@ -129,41 +125,68 @@ class NPC {
     }
 
 
-    public void speech() {
+    public void Speech() {
         fill(255);
         rect(0, height*0.55f, width, height*0.45f);
         for (TableRow row : NPCQuestTable.rows()) {
-            if (row.getInt("questRelated") == 1) {
-                if (row.getInt("questNumber") == player.QuestNumber) {
-                    println(row.getRowCount());
-                }
-            }
+            if (isTalking == false) {
+                if (row.getInt("questRelated") == 1 && row.getInt("questNumber") == player.QuestNumber && speechIsFinished == false) {
+                    if (row.getInt("NPCid") == id) {
+                        println(speechOf+", "+row.getInt("number"));
+                        if (row.getInt("number") <= row.getInt("of") && speechOf == row.getInt("number")) {
 
-
-            counter+=counterInc;
-          /*  if (counter <= speec.length()) {
-                fill(0);
-                textSize(20);
-                text(speec.substring(0, counter), 20, height*0.6, width-20, height);
-                //println(speec.substring(0, counter));
-                if (counter == speec.length()) {
-                    counterInc=0;
+                            if ( row.getInt("start") == 1) {
+                                player.questActive = true;
+                            }
+                        }
+                        speech = row.getString("questString");
+                        isTalking = true;
+                    }
                 }
+            } else if (row.getInt("questRelated") == 0 && row.getInt("NPCid") == id && speechIsFinished == false) {
+
+                speech = row.getString("nonQuestString");
+                isTalking = true;
             }
-            if (mousePressed) {
-                counter = speec.length()-1;
-            }*/
         }
+
+
+        if (counter <= speech.length()) {
+            fill(0);
+            textSize(20);
+            text(speech.substring(0, counter), 20, height*0.6f, width-20, height);
+            //println(speec.substring(0, counter));
+            if (counter == speech.length()) {
+                counterInc=0;
+                speechIsFinished = true;
+                isTalking = false;
+            }
+        }
+        counter+=counterInc;
+
+        if (mousePressed && speechIsFinished) {
+            //    counter = speech.length()-1;
+            if (speechIsFinished) {
+                speechOf++;   
+                speechIsFinished = false;
+                counter = 0;
+                counterInc = 1;
+            }
+        }
+
+        //println(counter);
     }
 }
 class Player {
 
     boolean dirUp, dirLeft, dirRight, dirDown;
     boolean movedirUp, movedirLeft, movedirRight, movedirDown, keyIsPressed;
+    boolean questActive;
 
     float playerDia = squareSize*0.75f;
     int movementSpeed = 4;
     int QuestNumber = 1;
+    int questComp = 0;
 
     Player() {
     }
@@ -192,6 +215,7 @@ class Player {
         dirRight = true;
         dirDown = true;
         float col = 2.01f;
+
         for (int j =0; j<felter.size(); j++) { 
 
             //UP
@@ -201,33 +225,44 @@ class Player {
                 npcProx(j);
             }
             //Down
-            else if (width/2-location.x > felter.get(j).x*squareSize-playerDia/2 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia/2
+            if (width/2-location.x > felter.get(j).x*squareSize-playerDia/2 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia/2
                 && height/2-location.y > felter.get(j).y*squareSize-playerDia/2-col && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia/2) {
                 dirDown = false;
                 npcProx(j);
             }
             //Left
-            else if (width/2-location.x > felter.get(j).x*squareSize-playerDia/2 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia/2+col
+            if (width/2-location.x > felter.get(j).x*squareSize-playerDia/2 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia/2+col
                 && height/2-location.y > felter.get(j).y*squareSize-playerDia/2 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia/2) {
                 dirLeft = false;
                 npcProx(j);
             }
             //right
-            else if (width/2-location.x > felter.get(j).x*squareSize-playerDia/2-col && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia/2
+            if (width/2-location.x > felter.get(j).x*squareSize-playerDia/2-col && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia/2
                 && height/2-location.y > felter.get(j).y*squareSize-playerDia/2 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia/2) {
                 dirRight = false;
                 npcProx(j);
             }
+            for (int i = 0; i < npc.size(); i++) {
+                if (felter.get(j).x == npc.get(i).NPClocation.x && felter.get(j).y == npc.get(i).NPClocation.y) {
+                    if (dirRight && dirLeft && dirDown && dirUp) {
+                        npc.get(i).counter = 0;
+                        npc.get(i).speechOf = 1;
+                        npc.get(i).counterInc = 1;
+                        npc.get(i).speechIsFinished = false;
+                         npc.get(i).isTalking = false;
+                    }
+                }
+            }
         }
     }
-}
 
-public void npcProx(int j) {
-    for (int i = 0; i < npc.size(); i++) {
-        if (felter.get(j).x == npc.get(i).NPClocation.x && felter.get(j).y == npc.get(i).NPClocation.y) {
-            for (TableRow row : NPCQuestTable.rows()) {
-                if (npc.get(i).id == row.getInt("NPCid") && npc.get(i).once) {
-                    npc.get(i).speech();
+    public void npcProx(int j) {
+        for (int i = 0; i < npc.size(); i++) {
+            if (felter.get(j).x == npc.get(i).NPClocation.x && felter.get(j).y == npc.get(i).NPClocation.y) {
+                for (TableRow row : NPCQuestTable.rows()) {
+                    if (npc.get(i).id == row.getInt("NPCid")) {
+                        npc.get(i).Speech();
+                    }
                 }
             }
         }
