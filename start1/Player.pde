@@ -70,7 +70,7 @@ class Player {
                         npc.get(i).speechOf = 1;
                         npc.get(i).counterInc = 1;
                         npc.get(i).speechIsFinished = false;
-                         npc.get(i).isTalking = false;
+                        npc.get(i).isTalking = false;
                     }
                 }
             }
@@ -80,16 +80,16 @@ class Player {
     void npcProx(int j) {
         for (int i = 0; i < npc.size(); i++) {
             if (felter.get(j).x == npc.get(i).NPClocation.x && felter.get(j).y == npc.get(i).NPClocation.y) {
-                if (npc.get(i).NPClocation.x  == shop.shopLocation.x && npc.get(i).NPClocation.y == shop.shopLocation.y ){
+                if (npc.get(i).NPClocation.x  == shop.shopLocation.x && npc.get(i).NPClocation.y == shop.shopLocation.y ) {
                     shop.display();
                     shop.itemBuy();
-                } else{
+                } else {
 
-                for (TableRow row : NPCQuestTable.rows()) {
-                    if (npc.get(i).id == row.getInt("NPCid")) {
-                        npc.get(i).Speech();
+                    for (TableRow row : NPCQuestTable.rows()) {
+                        if (npc.get(i).id == row.getInt("NPCid")) {
+                            npc.get(i).Speech();
+                        }
                     }
-                }
                 }
             }
         }

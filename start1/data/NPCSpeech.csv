@@ -1,3 +1,4 @@
 id,NPCid,questRelated,questNumber,questString,number,of,nonQuestString,start,outOf
-1,1,1,1,"Go To The Other NPC",1,2,"",1,2
-2,2,1,1,"Nice Job Bitch, here is some cash",1,1,"",2,2
+1,1,1,1,"Go To The Other NPC",1,1,"",1,3
+2,3,1,1," Wrong Go To The Other NPC",1,1,"",2,3
+3,2,1,1,"Nice Job Bitch, here is some cash",1,1,"",3,3
