@@ -29,25 +29,28 @@ class NPC {
                     if (row.getInt("NPCid") == id) {
                         //println(speechOf+", "+row.getInt("number"));
                         if (row.getInt("number") <= row.getInt("of") && speechOf == row.getInt("number")) {
-                            if ( row.getInt("start")-1 == player.questComp &&  row.getInt("start")-1 == 0 && player.questActive == false) {
+                            if ( row.getInt("start")-1 == player.questComp &&  row.getInt("start")-1 == 0  ) {
                                 player.questActive = true;
-                                player.questComp = row.getInt("start");
+                                println(row.getInt("of"));
+                                println(speechOf);
+                                if (row.getInt("of") == speechOf) {
+                                    println(2);
+                                    player.questComp = row.getInt("start");
+                                }
                                 speech = row.getString("questString");
-                                println(speech);
-                                println("Quest Begun");
                             } 
                             if ( (row.getInt("start")-1 == player.questComp || row.getInt("start") < player.questComp ) && player.questActive) {
                                 if (row.getInt("start")-1 == player.questComp) {
-                                    speech = row.getString("questString");
+                                    player.questComp = row.getInt("start");
                                 }
-                                player.questComp = row.getInt("start");
+                                speech = row.getString("questString");
                             }
 
                             if (player.questComp == row.getInt("outOf") && player.questActive) {
                                 speech = row.getString("questString");
                                 player.questActive = false;
                                 player.QuestNumber++;
-                                println("Quest Ended");
+                                penge.currentValue +=row.getInt("reward");
                                 player.questComp = 0;
                             }
                         }
@@ -78,7 +81,8 @@ class NPC {
         if (mousePressed && speechIsFinished) {
             //    counter = speech.length()-1;
             if (speechIsFinished) {
-                speechOf++;   
+                speechOf++; 
+                println(speechOf);
                 speechIsFinished = false;
                 counter = 0;
                 counterInc = 1;
