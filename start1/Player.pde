@@ -40,26 +40,26 @@ class Player {
         for (int j =0; j<felter.size(); j++) { 
 
             //UP
-            if (width/2-location.x > felter.get(j).x*squareSize-playerDia/2 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia/2
-                && height/2-location.y > felter.get(j).y*squareSize-playerDia/2 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia/2+col) {
+            if (width/2-location.x > felter.get(j).x*squareSize-playerDia*0.4 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia*0.4
+                && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4+col) {
                 dirUp = false;
                 npcProx(j);
             }
             //Down
-            if (width/2-location.x > felter.get(j).x*squareSize-playerDia/2 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia/2
-                && height/2-location.y > felter.get(j).y*squareSize-playerDia/2-col && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia/2) {
+            if (width/2-location.x > felter.get(j).x*squareSize-playerDia*0.4 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia*0.4
+                && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4-col && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4) {
                 dirDown = false;
                 npcProx(j);
             }
             //Left
-            if (width/2-location.x > felter.get(j).x*squareSize-playerDia/2 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia/2+col
-                && height/2-location.y > felter.get(j).y*squareSize-playerDia/2 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia/2) {
+            if (width/2-location.x > felter.get(j).x*squareSize-playerDia*0.4 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia*0.4+col
+                && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4) {
                 dirLeft = false;
                 npcProx(j);
             }
             //right
-            if (width/2-location.x > felter.get(j).x*squareSize-playerDia/2-col && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia/2
-                && height/2-location.y > felter.get(j).y*squareSize-playerDia/2 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia/2) {
+            if (width/2-location.x > felter.get(j).x*squareSize-playerDia*0.4-col && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia*0.4
+                && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4) {
                 dirRight = false;
                 npcProx(j);
             }

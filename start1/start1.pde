@@ -45,7 +45,7 @@ void Tables() {
   }
   NPCQuestTable = loadTable("NPCSpeech.csv", "header");
   questTable = loadTable("Quests.csv", "header");
-  itemsTable = loadTable("items.csv","header");
+  itemsTable = loadTable("items.csv", "header");
 }
 void images() {
   map = loadImage("pic.png");
@@ -96,7 +96,11 @@ void coords() {
 }
 
 void mousePressed() {
-  //println("");
+  for (int i =0; i<coord.size(); i++) {
+    if (coord.get(i).x<mouseX-location.x && mouseX-location.x<coord.get(i).x + squareSize && coord.get(i).y<mouseY-location.y && mouseY-location.y-squareSize<coord.get(i).y && mousePressed) {
+      println(coord.get(i).x/48 + ", " + coord.get(i).y/48);
+    }
+  }
 }
 void mouseReleased() {
   if (shop.mouseRel) {
