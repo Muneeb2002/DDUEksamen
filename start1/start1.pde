@@ -4,6 +4,7 @@ Penge penge;
 ArrayList<NPC> npc;
 
 PImage map;
+PImage coin;
 ArrayList<PVector> coord = new ArrayList<PVector>();
 PVector location = new PVector(-500, -500);
 
@@ -31,7 +32,7 @@ void setup() {
   Tables();
   shop.shopItemsCoords_();
   player = new Player();
-  penge = new Penge (150);
+  penge = new Penge (420420);
 }
 void Tables() { 
   NPCTable = loadTable("NPCID.csv", "header");
@@ -49,7 +50,9 @@ void Tables() {
 }
 void images() {
   map = loadImage("pic.png");
+  coin = loadImage("coins.png");
   map.resize(map.width*2, map.height*2);
+  coin.resize(30,30);
   squareSize = map.width/105;
 }
 void draw() {

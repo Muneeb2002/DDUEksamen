@@ -1,27 +1,26 @@
-class Penge{
+class Penge {
 
 
 
-int currentValue;
+  int currentValue;
 
-Penge(int currentValue_){
-  
-  
-currentValue = currentValue_;
-    
-}
+  Penge(int currentValue_) {
 
-void display(){
-fill(0);
-textSize(30);
-   for (int x = -3; x < 4; x++) {
-        text(currentValue, 720+x, 30);
-        text(currentValue, 720, 30+x);
+
+    currentValue = currentValue_;
+  }
+
+  void display() {
+image(coin,width-35,5);
+    fill(0);
+    textSize(30);
+    textAlign(RIGHT);
+    for (int x = -3; x < 4; x++) {
+      text(currentValue, width+x-35, 30);
+      text(currentValue, width-35, 30+x);
     }
     fill(255);
-    text(currentValue, 720, 30);
-}
-
-
-
+    text(currentValue, width-35, 30);
+    textAlign(LEFT);
+  }
 }
