@@ -6,7 +6,7 @@ class Player {
 
     float playerDia = squareSize*0.75;
     int movementSpeed = 4;
-    int QuestNumber = 1;
+    int QuestNumber = 0;
     int questComp = 0;
 
     Player() {
