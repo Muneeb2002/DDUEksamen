@@ -19,6 +19,7 @@ class Items {
     void textmsg() {
         speech = "Du har fundet \"" + name + "\"";
         pickedUp=true;
+
         fill(255);
         rect(0, height*0.55, width, height*0.45);
         if (counter <= speech.length()) {

@@ -45,7 +45,7 @@ class Player {
                 for ( Items i : items) {
                     if (felter.get(j) == i.itemsLocation) {
                         if (i.showtext) {
-                            i.textmsg();
+                            itemProx(j);
                             dirUp = false;
                         }
                     } else {
@@ -60,13 +60,12 @@ class Player {
                 for ( Items i : items) {
                     if (felter.get(j) == i.itemsLocation) {
                         if (i.showtext) {
-                            i.textmsg();
+                            itemProx(j);
                             dirDown = false;
                             break;
                         }
                     } else {
                         if (felter.get(j) != i.itemsLocation) {
-                            println(2);
                             dirDown = false;
                             npcProx(j);
                         }
@@ -79,7 +78,7 @@ class Player {
                 for ( Items i : items) {
                     if (felter.get(j) == i.itemsLocation) {
                         if (i.showtext) {
-                            i.textmsg();
+                            itemProx(j);
                             dirLeft = false;
                         }
                     } else {
@@ -94,7 +93,7 @@ class Player {
                 for ( Items i : items) {
                     if (felter.get(j) == i.itemsLocation) {
                         if (i.showtext) {
-                            i.textmsg();
+                            itemProx(j);
                             dirRight = false;
                         }
                     } else {
@@ -143,6 +142,25 @@ class Player {
             }
         }
     }
+
+    void itemProx(int j) {
+        for (Items i : items) {
+            if (felter.get(j) == i.itemsLocation) {
+                if(i.pickedUp == false){
+                    inventory.itemsNumber++;
+                }
+                i.textmsg();
+                if (i.pickedUp) {
+                    
+                    for (TableRow row : itemsTable.rows()) {
+                        if (row.getString("name")==i.name) {
+                            row.setInt("pickedUp",1);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 void keyPressed() {
@@ -162,14 +180,13 @@ void keyPressed() {
             }
             player.keyIsPressed = true;
         }
-   if(key == 'i'){
-        
-        if (inventory.showInventory){
-        inventory.showInventory= false;
-        
-        }else{
-        inventory.showInventory= true;
-        }
+        if (key == 'i') {
+
+            if (inventory.showInventory) {
+                inventory.showInventory= false;
+            } else {
+                inventory.showInventory= true;
+            }
         }
     }
 }
