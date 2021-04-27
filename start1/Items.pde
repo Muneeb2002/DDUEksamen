@@ -4,18 +4,21 @@ class Items {
     float itemsDia = squareSize;
     int counter, counterInc = 1;
     String speech;
-    boolean textDone;
+    boolean pickedUp, showtext = true;
     Items(int x_, int y_, String name_) {
         itemsLocation = new PVector(x_, y_);
         name = name_;
         felter.add(itemsLocation);
     }
     void display() {
-        fill(255, 255, 240);
-        square(itemsLocation.x*squareSize+location.x, itemsLocation.y*squareSize+location.y, itemsDia);
+        if (showtext) {
+            fill(255, 255, 240);
+            square(itemsLocation.x*squareSize+location.x, itemsLocation.y*squareSize+location.y, itemsDia);
+        }
     }
     void textmsg() {
-        speech = "You have found the \"" + name + "\"";
+        speech = "Du har fundet \"" + name + "\"";
+        pickedUp=true;
         fill(255);
         rect(0, height*0.55, width, height*0.45);
         if (counter <= speech.length()) {
@@ -25,7 +28,6 @@ class Items {
             //println(speec.substring(0, counter));
             if (counter == speech.length()) {
                 counterInc=0;
-                textDone = true;
             }
         }
 

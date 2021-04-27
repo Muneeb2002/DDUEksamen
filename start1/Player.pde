@@ -44,43 +44,64 @@ class Player {
                 && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4+col) {
                 for ( Items i : items) {
                     if (felter.get(j) == i.itemsLocation) {
+                        if (i.showtext) {
+                            i.textmsg();
+                            dirUp = false;
+                        }
+                    } else {
+                        dirUp = false;
+                        npcProx(j);
                     }
                 }
-                dirUp = false;
-                npcProx(j);
             }
             //Down
             if (width/2-location.x > felter.get(j).x*squareSize-playerDia*0.4 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia*0.4
                 && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4-col && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4) {
                 for ( Items i : items) {
                     if (felter.get(j) == i.itemsLocation) {
-                        i.textmsg();
+                        if (i.showtext) {
+                            i.textmsg();
+                            dirDown = false;
+                            break;
+                        }
+                    } else {
+                        if (felter.get(j) != i.itemsLocation) {
+                            println(2);
+                            dirDown = false;
+                            npcProx(j);
+                        }
                     }
                 }
-                dirDown = false;
-                npcProx(j);
             }
             //Left
             if (width/2-location.x > felter.get(j).x*squareSize-playerDia*0.4 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia*0.4+col
                 && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4) {
                 for ( Items i : items) {
                     if (felter.get(j) == i.itemsLocation) {
-                        i.textmsg();
+                        if (i.showtext) {
+                            i.textmsg();
+                            dirLeft = false;
+                        }
+                    } else {
+                        dirLeft = false;
+                        npcProx(j);
                     }
                 }
-                dirLeft = false;
-                npcProx(j);
             }
             //right
             if (width/2-location.x > felter.get(j).x*squareSize-playerDia*0.4-col && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia*0.4
                 && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4) {
                 for ( Items i : items) {
                     if (felter.get(j) == i.itemsLocation) {
-                        i.textmsg();
+                        if (i.showtext) {
+                            i.textmsg();
+                            dirRight = false;
+                        }
+                    } else {
+                        dirRight = false;
+                        npcProx(j);
                     }
                 }
-                dirRight = false;
-                npcProx(j);
             }
             for (NPC n : npc) {
                 if (felter.get(j).x == n.NPClocation.x && felter.get(j).y == n.NPClocation.y) {
@@ -93,8 +114,15 @@ class Player {
                     }
                 }
             }
-
-            
+            for (Items i : items) {
+                if (i.pickedUp) {
+                    if (felter.get(j) == i.itemsLocation) {
+                        if (dirRight && dirLeft && dirDown && dirUp) {
+                            i.showtext = false;
+                        }
+                    }
+                }
+            }
         }
     }
 
