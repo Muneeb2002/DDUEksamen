@@ -1,7 +1,9 @@
+
 Player player;
 Shop shop;
 Penge penge;
 ArrayList<NPC> npc;
+ArrayList <Items> items;
 
 PImage map;
 PImage coin;
@@ -18,6 +20,7 @@ Table obstacleTable;
 Table NPCTable;
 Table NPCQuestTable;
 Table questTable;
+Table shopTable;
 Table itemsTable;
 
 boolean showFelter;
@@ -28,6 +31,7 @@ void setup() {
 
   coords();
   npc = new ArrayList<NPC>();
+  items = new ArrayList<Items>();
 
   Tables();
   shop.shopItemsCoords_();
@@ -46,7 +50,11 @@ void Tables() {
   }
   NPCQuestTable = loadTable("NPCSpeech.csv", "header");
   questTable = loadTable("Quests.csv", "header");
+  shopTable = loadTable("shop.csv", "header");
   itemsTable = loadTable("items.csv", "header");
+  for (TableRow row : itemsTable.rows()){
+      items.add(new Items(row.getInt("x"),row.getInt("y"),row.getString("name")));
+  }
 }
 void images() {
   map = loadImage("pic.png");
@@ -72,8 +80,11 @@ void draw() {
       }
     }
   }
-  for (int i = 0; i < npc.size(); i++) {
-    npc.get(i).display();
+  for (NPC n : npc) {
+    n.display();
+  }
+  for (Items i : items){
+      i.display();
   }
   translate(width/2, height/2);
   player.display();

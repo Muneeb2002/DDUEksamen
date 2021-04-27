@@ -28,7 +28,7 @@ class Shop {
     for (int i = 0; i<shopItemsCoords.size(); i++) {
       noFill();
       rect(shopItemsCoords.get(i).x, shopItemsCoords.get(i).y, 205, 150);
-      for (TableRow row : itemsTable.rows()) {
+      for (TableRow row : shopTable.rows()) {
         if (shopItemsCoords.get(i).z == row.getInt("nummer")) {
           if(row.getInt("koebt") ==0){
             
@@ -45,7 +45,7 @@ class Shop {
   void itemBuy() {
     for (int i = 0; i<shopItemsCoords.size(); i++) {
       if (shopItemsCoords.get(i).x<mouseX && shopItemsCoords.get(i).x+205>mouseX && shopItemsCoords.get(i).y<mouseY && shopItemsCoords.get(i).y+150>mouseY && mousePressed && mouseRel == false) {
-        for (TableRow row : itemsTable.rows()) {
+        for (TableRow row : shopTable.rows()) {
           if (shopItemsCoords.get(i).z == row.getInt("nummer")) {
             if (penge.currentValue>=row.getInt("pris")&& row.getInt("koebt") ==0) {
               

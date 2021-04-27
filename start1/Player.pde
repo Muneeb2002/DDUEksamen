@@ -6,7 +6,7 @@ class Player {
 
     float playerDia = squareSize*0.75;
     int movementSpeed = 4;
-    int QuestNumber = 1;
+    int QuestNumber = 0;
     int questComp = 0;
 
     Player() {
@@ -42,52 +42,73 @@ class Player {
             //UP
             if (width/2-location.x > felter.get(j).x*squareSize-playerDia*0.4 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia*0.4
                 && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4+col) {
+                for ( Items i : items) {
+                    if (felter.get(j) == i.itemsLocation) {
+                    }
+                }
                 dirUp = false;
                 npcProx(j);
             }
             //Down
             if (width/2-location.x > felter.get(j).x*squareSize-playerDia*0.4 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia*0.4
                 && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4-col && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4) {
+                for ( Items i : items) {
+                    if (felter.get(j) == i.itemsLocation) {
+                        i.textmsg();
+                    }
+                }
                 dirDown = false;
                 npcProx(j);
             }
             //Left
             if (width/2-location.x > felter.get(j).x*squareSize-playerDia*0.4 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia*0.4+col
                 && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4) {
+                for ( Items i : items) {
+                    if (felter.get(j) == i.itemsLocation) {
+                        i.textmsg();
+                    }
+                }
                 dirLeft = false;
                 npcProx(j);
             }
             //right
             if (width/2-location.x > felter.get(j).x*squareSize-playerDia*0.4-col && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia*0.4
                 && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4) {
+                for ( Items i : items) {
+                    if (felter.get(j) == i.itemsLocation) {
+                        i.textmsg();
+                    }
+                }
                 dirRight = false;
                 npcProx(j);
             }
-            for (int i = 0; i < npc.size(); i++) {
-                if (felter.get(j).x == npc.get(i).NPClocation.x && felter.get(j).y == npc.get(i).NPClocation.y) {
+            for (NPC n : npc) {
+                if (felter.get(j).x == n.NPClocation.x && felter.get(j).y == n.NPClocation.y) {
                     if (dirRight && dirLeft && dirDown && dirUp) {
-                        npc.get(i).counter = 0;
-                        npc.get(i).speechOf = 1;
-                        npc.get(i).counterInc = 1;
-                        npc.get(i).speechIsFinished = false;
-                        npc.get(i).isTalking = false;
+                        n.counter = 0;
+                        n.speechOf = 1;
+                        n.counterInc = 1;
+                        n.speechIsFinished = false;
+                        n.isTalking = false;
                     }
                 }
             }
+
+            
         }
     }
 
     void npcProx(int j) {
-        for (int i = 0; i < npc.size(); i++) {
-            if (felter.get(j).x == npc.get(i).NPClocation.x && felter.get(j).y == npc.get(i).NPClocation.y) {
-                if (npc.get(i).NPClocation.x  == shop.shopLocation.x && npc.get(i).NPClocation.y == shop.shopLocation.y ) {
+        for (NPC n : npc) {
+            if (felter.get(j).x == n.NPClocation.x && felter.get(j).y == n.NPClocation.y) {
+                if (n.NPClocation.x  == shop.shopLocation.x && n.NPClocation.y == shop.shopLocation.y ) {
                     shop.display();
                     shop.itemBuy();
                 } else {
 
                     for (TableRow row : NPCQuestTable.rows()) {
-                        if (npc.get(i).id == row.getInt("NPCid")) {
-                            npc.get(i).Speech();
+                        if (n.id == row.getInt("NPCid")) {
+                            n.Speech();
                         }
                     }
                 }
