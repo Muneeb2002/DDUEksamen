@@ -134,6 +134,15 @@ void keyPressed() {
             }
             player.keyIsPressed = true;
         }
+   if(key == 'i'){
+        
+        if (inventory.showInventory){
+        inventory.showInventory= false;
+        
+        }else{
+        inventory.showInventory= true;
+        }
+        }
     }
 }
 

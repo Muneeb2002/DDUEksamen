@@ -2,6 +2,7 @@
 Player player;
 Shop shop;
 Penge penge;
+Inventory inventory;
 ArrayList<NPC> npc;
 ArrayList <Items> items;
 
@@ -32,9 +33,10 @@ void setup() {
   coords();
   npc = new ArrayList<NPC>();
   items = new ArrayList<Items>();
-
+  inventory = new Inventory();
   Tables();
   shop.shopItemsCoords_();
+  inventory.inventoryItemsCoords_();
   player = new Player();
   penge = new Penge (420420);
 }
@@ -52,15 +54,15 @@ void Tables() {
   questTable = loadTable("Quests.csv", "header");
   shopTable = loadTable("shop.csv", "header");
   itemsTable = loadTable("items.csv", "header");
-  for (TableRow row : itemsTable.rows()){
-      items.add(new Items(row.getInt("x"),row.getInt("y"),row.getString("name")));
+  for (TableRow row : itemsTable.rows()) {
+    items.add(new Items(row.getInt("x"), row.getInt("y"), row.getString("name")));
   }
 }
 void images() {
   map = loadImage("pic.png");
   coin = loadImage("coins.png");
   map.resize(map.width*2, map.height*2);
-  coin.resize(30,30);
+  coin.resize(30, 30);
   squareSize = map.width/105;
 }
 void draw() {
@@ -83,16 +85,20 @@ void draw() {
   for (NPC n : npc) {
     n.display();
   }
-  for (Items i : items){
-      i.display();
+  for (Items i : items) {
+    i.display();
   }
   translate(width/2, height/2);
   player.display();
 
   popMatrix();
+  
   penge.display();
   player.collision();
   player.move();
+  if (inventory.showInventory) {
+    inventory.display();
+  }
 }
 
 void coords() {
