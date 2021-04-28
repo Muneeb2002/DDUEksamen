@@ -47,10 +47,13 @@ class Player {
                         if (i.showtext) {
                             itemProx(j);
                             dirUp = false;
+                            break;
                         }
                     } else {
-                        dirUp = false;
-                        npcProx(j);
+                        if (i.showtext == false) {
+                            dirUp = false;
+                            npcProx(j);
+                        }
                     }
                 }
             }
@@ -59,16 +62,17 @@ class Player {
                 && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4-col && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4) {
                 for ( Items i : items) {
                     if (felter.get(j) == i.itemsLocation) {
+                        println(1);
                         if (i.showtext) {
                             itemProx(j);
                             dirDown = false;
-                            break;
                         }
-                    } else {
-                        if (felter.get(j) != i.itemsLocation) {
-                            dirDown = false;
-                            npcProx(j);
-                        }
+                    } 
+                    if (felter.get(j) != i.itemsLocation) {
+                        println(2);
+                        dirDown = false;
+                        npcProx(j);
+                        exit();
                     }
                 }
             }
@@ -80,10 +84,13 @@ class Player {
                         if (i.showtext) {
                             itemProx(j);
                             dirLeft = false;
+                            break;
                         }
                     } else {
-                        dirLeft = false;
-                        npcProx(j);
+                        if (i.showtext == false) {
+                            dirLeft = false;
+                            npcProx(j);
+                        }
                     }
                 }
             }
@@ -95,10 +102,13 @@ class Player {
                         if (i.showtext) {
                             itemProx(j);
                             dirRight = false;
+                            break;
                         }
                     } else {
-                        dirRight = false;
-                        npcProx(j);
+                        if (i.showtext == false) {
+                            dirRight = false;
+                            npcProx(j);
+                        }
                     }
                 }
             }
@@ -146,15 +156,15 @@ class Player {
     void itemProx(int j) {
         for (Items i : items) {
             if (felter.get(j) == i.itemsLocation) {
-                if(i.pickedUp == false){
+                if (i.pickedUp == false) {
                     inventory.itemsNumber++;
                 }
                 i.textmsg();
                 if (i.pickedUp) {
-                    
+
                     for (TableRow row : itemsTable.rows()) {
                         if (row.getString("name")==i.name) {
-                            row.setInt("pickedUp",1);
+                            row.setInt("pickedUp", 1);
                         }
                     }
                 }

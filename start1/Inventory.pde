@@ -9,7 +9,7 @@ class Inventory {
         int h = 1;
         for (int i = 90; i<600; i+=210) {
             for (int j =100; j<600; j+=210) {
-                inventoryItemsCoords.add(new PVector(i, j, h));
+                inventoryItemsCoords.add(new PVector(j, i, h));
                 h++;
             }
         }
@@ -27,10 +27,17 @@ class Inventory {
         for (int i = 0; i<inventoryItemsCoords.size(); i++) {
             noFill();
             rect(inventoryItemsCoords.get(i).x, inventoryItemsCoords.get(i).y, 200, 200);
-        } 
-        for (TableRow row : itemsTable.rows()) {
-            if (row.getInt("pickedUp")==1) {
-                text(row.getString("name"), inventoryItemsCoords.get(itemsNumber).x, inventoryItemsCoords.get(itemsNumber).y);
+
+            for (TableRow row : itemsTable.rows()) {
+                if (inventoryItemsCoords.get(i).z == row.getInt("nummer")) {
+                    if (row.getInt("pickedUp") ==1) {
+
+
+                        textAlign(CENTER);
+                        text(row.getString("name"), inventoryItemsCoords.get(i).x+205/2, inventoryItemsCoords.get(i).y+150/2);
+                        textAlign(LEFT);
+                    }
+                }
             }
         }
     }
