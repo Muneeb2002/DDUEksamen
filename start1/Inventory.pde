@@ -20,22 +20,25 @@ class Inventory {
         rect(50, 50, 700, 700);
         textAlign(CENTER);
         fill(0);
+        textSize(30);
         text("Inventory", width/2, 80);
-        shopItems();
+        showInventory();
     }
-    void shopItems() {
+    void showInventory() {
         for (int i = 0; i<inventoryItemsCoords.size(); i++) {
             noFill();
             rect(inventoryItemsCoords.get(i).x, inventoryItemsCoords.get(i).y, 200, 200);
-
-            for (TableRow row : itemsTable.rows()) {
-                if (inventoryItemsCoords.get(i).z == row.getInt("nummer")) {
-                    if (row.getInt("pickedUp") ==1) {
-
-
-                        textAlign(CENTER);
-                        text(row.getString("name"), inventoryItemsCoords.get(i).x+205/2, inventoryItemsCoords.get(i).y+150/2);
-                        textAlign(LEFT);
+            for (Items item : items) {
+                for (TableRow row : itemsTable.rows()) {
+                    if (inventoryItemsCoords.get(i).z == item.itemsLocation.z) {
+                        if (row.getInt("pickedUp") ==1) {
+                            if (row.getString("name") == item.name) {
+                                textSize(20);
+                                textAlign(CENTER);
+                                text(row.getString("name"), inventoryItemsCoords.get(i).x+205/2, inventoryItemsCoords.get(i).y+150/2);
+                                textAlign(LEFT);
+                            }
+                        }
                     }
                 }
             }

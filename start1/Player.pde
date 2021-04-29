@@ -8,7 +8,7 @@ class Player {
     int movementSpeed = 4;
     int QuestNumber = 0;
     int questComp = 0;
-
+    int itemsPickedUp=0;
     Player() {
     }
     void display() {
@@ -42,75 +42,32 @@ class Player {
             //UP
             if (width/2-location.x > felter.get(j).x*squareSize-playerDia*0.4 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia*0.4
                 && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4+col) {
-                for ( Items i : items) {
-                    if (felter.get(j) == i.itemsLocation) {
-                        if (i.showtext) {
-                            itemProx(j);
-                            dirUp = false;
-                            break;
-                        }
-                    } else {
-                        if (i.showtext == false) {
-                            dirUp = false;
-                            npcProx(j);
-                        }
-                    }
-                }
+                itemProx(j);
+                dirUp = false;
+                npcProx(j);
             }
+
+
             //Down
             if (width/2-location.x > felter.get(j).x*squareSize-playerDia*0.4 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia*0.4
                 && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4-col && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4) {
-                for ( Items i : items) {
-                    if (felter.get(j) == i.itemsLocation) {
-                        println(1);
-                        if (i.showtext) {
-                            itemProx(j);
-                            dirDown = false;
-                        }
-                    } 
-                    if (felter.get(j) != i.itemsLocation) {
-                        println(2);
-                        dirDown = false;
-                        npcProx(j);
-                        exit();
-                    }
-                }
+                itemProx(j);
+                dirDown = false;
+                npcProx(j);
             }
             //Left
             if (width/2-location.x > felter.get(j).x*squareSize-playerDia*0.4 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia*0.4+col
                 && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4) {
-                for ( Items i : items) {
-                    if (felter.get(j) == i.itemsLocation) {
-                        if (i.showtext) {
-                            itemProx(j);
-                            dirLeft = false;
-                            break;
-                        }
-                    } else {
-                        if (i.showtext == false) {
-                            dirLeft = false;
-                            npcProx(j);
-                        }
-                    }
-                }
+                itemProx(j);
+                dirLeft = false;
+                npcProx(j);
             }
             //right
             if (width/2-location.x > felter.get(j).x*squareSize-playerDia*0.4-col && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia*0.4
                 && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4) {
-                for ( Items i : items) {
-                    if (felter.get(j) == i.itemsLocation) {
-                        if (i.showtext) {
-                            itemProx(j);
-                            dirRight = false;
-                            break;
-                        }
-                    } else {
-                        if (i.showtext == false) {
-                            dirRight = false;
-                            npcProx(j);
-                        }
-                    }
-                }
+                itemProx(j);
+                dirRight = false;
+                npcProx(j);
             }
             for (NPC n : npc) {
                 if (felter.get(j).x == n.NPClocation.x && felter.get(j).y == n.NPClocation.y) {
@@ -126,8 +83,11 @@ class Player {
             for (Items i : items) {
                 if (i.pickedUp) {
                     if (felter.get(j) == i.itemsLocation) {
+
                         if (dirRight && dirLeft && dirDown && dirUp) {
                             i.showtext = false;
+                            felter.remove(j);
+                            break;
                         }
                     }
                 }
@@ -157,10 +117,20 @@ class Player {
         for (Items i : items) {
             if (felter.get(j) == i.itemsLocation) {
                 if (i.pickedUp == false) {
-                    inventory.itemsNumber++;
                 }
-                i.textmsg();
+                if (i.showtext) {
+                    if (i.pickedUp == false) {
+                        inventory.itemsNumber++;
+                    }
+                    i.textmsg();
+                }
                 if (i.pickedUp) {
+                    if (i.showItem) {
+                        itemsPickedUp = inventory.itemsNumber;
+
+                        i.itemsLocation.set( i.itemsLocation.x, i.itemsLocation.y, itemsPickedUp);
+                        i.showItem = false;
+                    }
 
                     for (TableRow row : itemsTable.rows()) {
                         if (row.getString("name")==i.name) {

@@ -4,7 +4,7 @@ class Items {
     float itemsDia = squareSize;
     int counter, counterInc = 1;
     String speech;
-    boolean pickedUp, showtext = true, showItem;
+    boolean pickedUp, showtext = true, showItem = true;
     Items(int x_, int y_, String name_) {
         itemsLocation = new PVector(x_, y_);
         name = name_;
