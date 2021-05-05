@@ -2,10 +2,13 @@ class Items {
     PVector itemsLocation;
     String name;
     float itemsDia = squareSize;
-    int counter, counterInc = 1;
+    int counter, counterInc = 1, id;
     String speech;
     boolean pickedUp, showtext = true, showItem = true;
-    Items(int x_, int y_, String name_) {
+    boolean inGame;
+    boolean givenAway;
+    Items(int x_, int y_, String name_, int id_) {
+        id = id_;
         itemsLocation = new PVector(x_, y_);
         name = name_;
         felter.add(itemsLocation);
@@ -33,5 +36,11 @@ class Items {
         }
 
         counter+=counterInc;
+    }
+
+    void removeItem() {
+        if (givenAway) {
+            items.remove(this);
+        }
     }
 }

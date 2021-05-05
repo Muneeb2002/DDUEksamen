@@ -9,6 +9,7 @@ class NPC {
     String speech = "";
     boolean speechIsFinished;
     boolean isTalking;
+    boolean done;
     NPC(int id_, int locX, int locY) {
         NPClocation = new PVector(locX, locY);
         id = id_;
@@ -24,45 +25,78 @@ class NPC {
         fill(255);
         rect(0, height*0.55, width, height*0.45);
         for (TableRow row : NPCQuestTable.rows()) {
-            if (isTalking == false) {
-                if (row.getInt("questRelated") == 1 && row.getInt("questNumber") == player.QuestNumber && speechIsFinished == false) {
-                    if (row.getInt("NPCid") == id) {
-                        //println(speechOf+", "+row.getInt("number"));
-                        if (row.getInt("number") <= row.getInt("of") && speechOf == row.getInt("number")) {
-                            if ( row.getInt("start")-1 == player.questComp &&  row.getInt("start")-1 == 0  ) {
-                                player.questActive = true;
-                                println(row.getInt("of"));
-                                println(speechOf);
-                                if (row.getInt("of") == speechOf) {
-                                    println(2);
-                                    player.questComp = row.getInt("start");
-                                }
-                                speech = row.getString("questString");
-                            } 
-                            if ( (row.getInt("start")-1 == player.questComp || row.getInt("start") < player.questComp ) && player.questActive) {
-                                if (row.getInt("start")-1 == player.questComp) {
-                                    player.questComp = row.getInt("start");
-                                }
-                                speech = row.getString("questString");
-                            }
-
-                            if (player.questComp == row.getInt("outOf") && player.questActive) {
-                                speech = row.getString("questString");
-                                player.questActive = false;
-                                player.QuestNumber++;
-                                penge.currentValue +=row.getInt("reward");
-                                player.questComp = 0;
+            //   if (isTalking == false) {
+            if (row.getInt("questRelated") == 1 && row.getInt("questNumber")-1 == player.QuestNumber && row.getInt("NPCid") == id) {
+                if (row.getInt("number") <= row.getInt("of") && speechOf == row.getInt("number")) {
+                    if ( row.getInt("start")-1 == player.questComp &&  row.getInt("start")-1 == 0  ) {
+                        player.questActive = true;
+                        for (TableRow rows : questTable.rows()) {
+                            if (rows.getInt("questNumber")-1 == player.QuestNumber) {
+                                player.itemsNeeded = int(splitTokens(rows.getString("items"), ","));
                             }
                         }
 
-                        isTalking = true;
+                        if (row.getInt("of") == speechOf) {
+
+                            player.questComp = row.getInt("start");
+                        }
+                        for (TableRow rows : itemsTable.rows()) {
+                            if (rows.getInt("quest")-1==player.QuestNumber) {
+                                items.add(new Items(rows.getInt("x"), rows.getInt("y"), rows.getString("name"), rows.getInt("itemNr")));
+                            }
+                        }
+                        showSpeech(row.getString("questString"));
                     }
-                } else if (row.getInt("questRelated") == 0 && row.getInt("NPCid") == id && speechIsFinished == false) {
-                    speech = row.getString("nonQuestString");
-                    isTalking = true;
+                    if (row.getInt("start")-1 <= player.questComp && player.questActive && player.questComp != row.getInt("outOf")) {
+                        if (row.getInt("start")-1 == player.questComp) {
+                            player.questComp = row.getInt("start");
+                        }
+                        showSpeech(row.getString("questString"));
+                    }
+                    if (player.questComp == row.getInt("outOf") && player.questActive) {
+                        player.itemsPicked = sort(player.itemsPicked);
+                        int[] subInt = new int[player.itemsNeeded.length];
+                        boolean ens = true;
+                        for (int i = 0; i < player.itemsNeeded.length; i++) {
+                            subInt[i]=player.itemsPicked[i];
+                        }
+                        for (int i = 0; i < player.itemsNeeded.length; i++) {
+                            if (player.itemsNeeded[i]!=subInt[i]) {
+                                ens = false;
+                                break;
+                            }
+                        }
+                        if (ens) {
+                            showSpeech(row.getString("questString"));
+                            if (row.getInt("of") == speechOf) {
+                                done = true;
+                                player.reward = row.getInt("reward");
+                                for (int i = 0; i < player.itemsNeeded.length; i++) {
+                                    for (Items item : items) {
+                                        if (subInt[i] == item.id && item.givenAway == false) {
+                                            item.givenAway = true;
+                                            item.removeItem();
+                                            break;
+                                            
+                                        }
+                                    }
+                                }
+                                for (int i = 0; i< subInt.length; i++) {
+                                    subInt[i]=0;
+                                }
+                            }
+                        } else {
+                            showSpeech("Det ser ud til at du ikke har fundet alle tingene endnu");
+                        }
+                    }
                 }
+            } else if (row.getInt("questRelated") == 0 && row.getInt("NPCid") == id && player.questActive == false) {
+                showSpeech(row.getString("nonQuestString"));
             }
         }
+        //      }
+    }
+    void showSpeech(String speech ) {
 
 
         if (counter <= speech.length()) {
@@ -73,7 +107,7 @@ class NPC {
             if (counter == speech.length()) {
                 counterInc=0;
                 speechIsFinished = true;
-                isTalking = false;
+                //
             }
         }
         counter+=counterInc;
@@ -82,12 +116,17 @@ class NPC {
             //    counter = speech.length()-1;
             if (speechIsFinished) {
                 speechOf++; 
-                println(speechOf);
                 speechIsFinished = false;
                 counter = 0;
                 counterInc = 1;
+                isTalking = false;
+                if (done == true) {
+                    player.questCompleted = true;
+                    done = false;
+                }
             }
         }
     }
+
     //println(counter);
 }

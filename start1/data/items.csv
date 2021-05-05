@@ -1,4 +1,5 @@
-x,y,name,pickedUp
-24,17,"The Holy Sword of your mother",0
-18,20,"hoppeborg",0
-17,22,"Bebop",0
+itemNr,x,y,name,pickedUp,quest
+1,24,17,"The Holy Sword of your mother",0,1
+2,18,20,"hoppeborg",0,0
+3,17,22,"Bebop",0,1
+4,17,25,"Blyat",0,2

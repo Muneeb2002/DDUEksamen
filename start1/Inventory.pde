@@ -30,8 +30,11 @@ class Inventory {
             rect(inventoryItemsCoords.get(i).x, inventoryItemsCoords.get(i).y, 200, 200);
             for (Items item : items) {
                 for (TableRow row : itemsTable.rows()) {
+                    //println(inventoryItemsCoords.get(i).z, item.itemsLocation.z);
                     if (inventoryItemsCoords.get(i).z == item.itemsLocation.z) {
-                        if (row.getInt("pickedUp") ==1) {
+
+                        if (row.getInt("pickedUp") ==1 && item.givenAway == false) {
+
                             if (row.getString("name") == item.name) {
                                 textSize(20);
                                 textAlign(CENTER);

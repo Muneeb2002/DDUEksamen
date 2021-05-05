@@ -3,12 +3,18 @@ class Player {
     boolean dirUp, dirLeft, dirRight, dirDown;
     boolean movedirUp, movedirLeft, movedirRight, movedirDown, keyIsPressed;
     boolean questActive;
+    boolean questCompleted;
+    boolean questCompleted2;
 
     float playerDia = squareSize*0.75;
     int movementSpeed = 4;
     int QuestNumber = 0;
     int questComp = 0;
     int itemsPickedUp=0;
+    int reward;
+    int[] itemsNeeded;
+    int[] itemsPicked = new int[5];
+    int pickedup = 0;
     Player() {
     }
     void display() {
@@ -77,8 +83,26 @@ class Player {
                         n.counterInc = 1;
                         n.speechIsFinished = false;
                         n.isTalking = false;
+                        if (questCompleted) {
+                            questCompleted = false;
+                            questCompleted2 = true;
+                        }
                     }
                 }
+            }
+            if (questCompleted2) {
+                questActive = false;
+                QuestNumber++;
+                for (int i = 0; i < itemsNeeded.length; i++) {
+                    itemsNeeded[i] = -1;
+                }
+                for (int i = 0; i < itemsPicked.length; i++) {
+                    itemsPicked[i] = 100;
+                }
+                penge.currentValue += reward;
+                reward = 0;
+                questComp = 0;
+                questCompleted2 = false;
             }
             for (Items i : items) {
                 if (i.pickedUp) {
@@ -116,8 +140,7 @@ class Player {
     void itemProx(int j) {
         for (Items i : items) {
             if (felter.get(j) == i.itemsLocation) {
-                if (i.pickedUp == false) {
-                }
+
                 if (i.showtext) {
                     if (i.pickedUp == false) {
                         inventory.itemsNumber++;
@@ -133,9 +156,18 @@ class Player {
                     }
 
                     for (TableRow row : itemsTable.rows()) {
+                        //for (TableRow rows : questTable.rows()) {
                         if (row.getString("name")==i.name) {
+
+
+                            if (QuestNumber == row.getInt("quest")-1 && row.getInt("pickedUp") == 0) {
+                                println(1);
+                                itemsPicked[pickedup] = (row.getInt("itemNr"));
+                                pickedup++;
+                            }
                             row.setInt("pickedUp", 1);
                         }
+                        //}
                     }
                 }
             }
