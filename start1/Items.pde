@@ -15,8 +15,7 @@ class Items {
     }
     void display() {
         if (showtext) {
-            fill(255, 255, 240);
-            square(itemsLocation.x*squareSize+location.x, itemsLocation.y*squareSize+location.y, itemsDia);
+            image(chest, itemsLocation.x*squareSize+location.x+5, itemsLocation.y*squareSize+location.y);
         }
     }
     void textmsg() {

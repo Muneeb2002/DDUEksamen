@@ -7,6 +7,13 @@ ArrayList <Items> items;
 
 PImage map;
 PImage coin;
+PImage[] pic = new PImage[13];
+PImage chest;
+
+
+
+
+
 ArrayList<PVector> coord = new ArrayList<PVector>();
 PVector location = new PVector(-500, -500);
 
@@ -38,7 +45,7 @@ void setup() {
     shop.shopItemsCoords_();
     inventory.inventoryItemsCoords_();
     player = new Player();
-    for(int i = 0; i < player.itemsPicked.length; i++){
+    for (int i = 0; i < player.itemsPicked.length; i++) {
         player.itemsPicked[i] = 100;
     }
     penge = new Penge (420420);
@@ -59,19 +66,26 @@ void Tables() {
     itemsTable = loadTable("items.csv", "header");
     for (TableRow row : itemsTable.rows()) {
         if (row.getInt("quest")==0) {
-            items.add(new Items(row.getInt("x"), row.getInt("y"), row.getString("name"),row.getInt("itemNr")));
+            items.add(new Items(row.getInt("x"), row.getInt("y"), row.getString("name"), row.getInt("itemNr")));
         }
     }
 }
 void images() {
-    map = loadImage("pic.png");
-    coin = loadImage("coins.png");
+    map = loadImage("/sprites/pic.png");
+    coin = loadImage("/sprites/coins.png");
     map.resize(map.width*2, map.height*2);
     coin.resize(30, 30);
     squareSize = map.width/105;
+
+    for (int j = 1; j < pic.length; j++) {
+        pic[j] = loadImage("/sprites/pic"+j+".png");
+        pic[j].resize(2*int(squareSize),2*int(squareSize));
+    }
+    chest = loadImage("/sprites/chest.png");
+    chest.resize(int(squareSize),int(squareSize));
 }
 void draw() {
-   
+
     pushMatrix();
     image(map, location.x, location.y);
     if (showFelter) {
@@ -127,7 +141,6 @@ void mousePressed() {
             println(coord.get(i).x/48 + ", " + coord.get(i).y/48);
         }
     }
-   
 }
 void mouseReleased() {
     if (shop.mouseRel) {
