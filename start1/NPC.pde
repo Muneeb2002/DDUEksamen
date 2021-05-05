@@ -61,8 +61,8 @@ class NPC {
                             subInt[i]=player.itemsPicked[i];
                         }
                         for (int i = 0; i < player.itemsNeeded.length; i++) {
-                            if (player.itemsNeeded[i]!=subInt[i]) {
-                                ens = false;
+                            if (player.itemsNeeded[i]!=subInt[i]) { 
+                                ens = false; 
                                 break;
                             }
                         }
@@ -75,14 +75,17 @@ class NPC {
                                     for (Items item : items) {
                                         if (subInt[i] == item.id && item.givenAway == false) {
                                             item.givenAway = true;
+                                            player.givenAway++;
                                             item.removeItem();
                                             break;
-                                            
                                         }
                                     }
                                 }
+
+
+
                                 for (int i = 0; i< subInt.length; i++) {
-                                    subInt[i]=0;
+                                    subInt[i]=100;
                                 }
                             }
                         } else {

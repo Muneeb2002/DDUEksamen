@@ -33,20 +33,20 @@ class Inventory {
                     //println(inventoryItemsCoords.get(i).z, item.itemsLocation.z);
                     if (inventoryItemsCoords.get(i).z == item.itemsLocation.z) {
 
-                        if (row.getInt("pickedUp") ==1 && item.givenAway == false) {
+                        if (row.getInt("pickedUp") ==1 && item.givenAway == false && row.getInt("cash") == 0) {
 
                             if (row.getString("name") == item.name) {
                                 textSize(20);
                                 textAlign(CENTER);
                                 imageMode(CENTER);
-                                if(item.id < 12){
-                                image(pic[item.id], inventoryItemsCoords.get(i).x+205/2, inventoryItemsCoords.get(i).y+150/2);
+                                if (item.id < 12) {
+                                    image(pic[item.id], inventoryItemsCoords.get(i).x+205/2, inventoryItemsCoords.get(i).y+150/2);
                                 }
                                 imageMode(CORNER);
                                 text(row.getString("name"), inventoryItemsCoords.get(i).x+205/2, inventoryItemsCoords.get(i).y+150/2+100);
                                 textAlign(LEFT);
                             }
-                        }
+                        } 
                     }
                 }
             }

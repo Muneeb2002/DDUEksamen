@@ -15,6 +15,7 @@ class Player {
     int[] itemsNeeded;
     int[] itemsPicked = new int[5];
     int pickedup = 0;
+    int givenAway = 0;
     Player() {
     }
     void display() {
@@ -140,32 +141,37 @@ class Player {
     void itemProx(int j) {
         for (Items i : items) {
             if (felter.get(j) == i.itemsLocation) {
-
+                for (TableRow row : itemsTable.rows()) {
+                    if (row.getInt("cash") !=0 && i.cashGiven == false && i.id == row.getInt("itemNr")) {
+                        penge.currentValue+=row.getInt("cash");
+                        i.cashGiven = true;
+                    }
+                }
                 if (i.showtext) {
-                    if (i.pickedUp == false) {
+                    if (i.pickedUp == false && i.cashGiven == false) {
                         inventory.itemsNumber++;
                     }
                     i.textmsg();
                 }
-                if (i.pickedUp) {
+                if (i.pickedUp && i.cashGiven == false) {
                     if (i.showItem) {
-                        itemsPickedUp = inventory.itemsNumber;
+                        itemsPickedUp = inventory.itemsNumber-givenAway;
 
                         i.itemsLocation.set( i.itemsLocation.x, i.itemsLocation.y, itemsPickedUp);
                         i.showItem = false;
                     }
 
-                    for (TableRow row : itemsTable.rows()) {
+                    for (TableRow rows : itemsTable.rows()) {
                         //for (TableRow rows : questTable.rows()) {
-                        if (row.getString("name")==i.name) {
+                        if (rows.getString("name")==i.name) {
 
 
-                            if (QuestNumber == row.getInt("quest")-1 && row.getInt("pickedUp") == 0) {
-                                println(1);
-                                itemsPicked[pickedup] = (row.getInt("itemNr"));
+                            if (QuestNumber == rows.getInt("quest")-1 && rows.getInt("pickedUp") == 0) {
+
+                                itemsPicked[pickedup] = (rows.getInt("itemNr"));
                                 pickedup++;
                             }
-                            row.setInt("pickedUp", 1);
+                            rows.setInt("pickedUp", 1);
                         }
                         //}
                     }
@@ -174,6 +180,7 @@ class Player {
         }
     }
 }
+
 
 void keyPressed() {
     if (player.keyIsPressed==false) {

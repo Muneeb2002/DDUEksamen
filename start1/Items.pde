@@ -7,6 +7,7 @@ class Items {
     boolean pickedUp, showtext = true, showItem = true;
     boolean inGame;
     boolean givenAway;
+    boolean cashGiven;
     Items(int x_, int y_, String name_, int id_) {
         id = id_;
         itemsLocation = new PVector(x_, y_);

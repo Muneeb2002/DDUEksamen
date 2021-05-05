@@ -79,10 +79,10 @@ void images() {
 
     for (int j = 1; j < pic.length; j++) {
         pic[j] = loadImage("/sprites/pic"+j+".png");
-        pic[j].resize(2*int(squareSize),2*int(squareSize));
+        pic[j].resize(2*int(squareSize), 2*int(squareSize));
     }
     chest = loadImage("/sprites/chest.png");
-    chest.resize(int(squareSize),int(squareSize));
+    chest.resize(int(squareSize), int(squareSize));
 }
 void draw() {
 
@@ -136,13 +136,15 @@ void coords() {
 }
 
 void mousePressed() {
+
     for (int i =0; i<coord.size(); i++) {
         if (coord.get(i).x<mouseX-location.x && mouseX-location.x<coord.get(i).x + squareSize && coord.get(i).y<mouseY-location.y && mouseY-location.y-squareSize<coord.get(i).y && mousePressed) {
-            println(coord.get(i).x/48 + ", " + coord.get(i).y/48);
+            // println(coord.get(i).x/48 + ", " + coord.get(i).y/48);
         }
     }
 }
 void mouseReleased() {
+
     if (shop.mouseRel) {
         shop.mouseRel=false;
     }
