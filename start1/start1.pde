@@ -12,6 +12,7 @@ PImage[] pic = new PImage[13];
 PImage[] npcDesign = new PImage [6];
 PImage chest;
 PImage textBubble;
+PFont font;
 
 PImage[] sprite = new PImage[16];
 PImage[] spriteUp = new PImage[4];
@@ -59,6 +60,7 @@ void setup() {
         player.itemsPicked[i] = 100;
     }
     penge = new Penge (420420);
+     font = loadFont("UGLYBYTEFONT.vlw");
 }
 void Tables() { 
     NPCTable = loadTable("NPCID.csv", "header");
@@ -190,7 +192,7 @@ void startScreen() {
     rect(width/4, 60+(height/3), 2*(width/4), 50);
     rect(width/4, 120+(height/3), 2*(width/4), 50);
     fill(0, 0, 255);
-    //textFont(mono);
+    textFont(font);
     text("PLAY", width/2, 30+(height/3));
     text("How To Play", width/2, 90+(height/3));
     text("Quit", width/2, 150+(height/3));
