@@ -40,6 +40,7 @@ class NPC {
 
                             player.questComp = row.getInt("start");
                         }
+
                         for (TableRow rows : itemsTable.rows()) {
                             if (rows.getInt("quest")-1==player.QuestNumber) {
                                 items.add(new Items(rows.getInt("x"), rows.getInt("y"), rows.getString("name"), rows.getInt("itemNr")));
@@ -93,6 +94,13 @@ class NPC {
                         }
                     }
                 }
+                /*else if (row.getInt("of") > speechOf) {
+                    for (TableRow rows : NPCQuestTable.rows()) {
+                        if (row.getInt("questRelated") == 0 && row.getInt("NPCid") == id && player.questActive) {
+                            showSpeech(rows.getString("nonQuestString"));
+                        }
+                    }
+                }*/
             } else if (row.getInt("questRelated") == 0 && row.getInt("NPCid") == id && player.questActive == false) {
                 showSpeech(row.getString("nonQuestString"));
             }

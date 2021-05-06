@@ -10,7 +10,13 @@ PImage coin;
 PImage[] pic = new PImage[13];
 PImage chest;
 
-
+PImage[] sprite = new PImage[16];
+PImage[] spriteUp = new PImage[4];
+PImage[] spriteLeft = new PImage[4];
+PImage[] spriteRight = new PImage[4];
+PImage[] spriteDown = new PImage[4];
+PImage spritesheet;
+int W, H, h=4, w=4;
 
 
 
@@ -83,6 +89,31 @@ void images() {
     }
     chest = loadImage("/sprites/chest.png");
     chest.resize(int(squareSize), int(squareSize));
+    int number = 1;
+    spritesheet = loadImage("/sprites/spritesheet.png");
+    W = spritesheet.width/w;
+    H = spritesheet.height/h;
+    for (int i = 0; i < h; i++) {
+        for (int j = 0; j < w; j++) {
+            sprite[number-1] = spritesheet.get(j*H, i*W, H, W);
+            sprite[number-1].resize(int(squareSize), int(squareSize));
+            switch (i+1) {
+            case 4:
+                spriteUp[j] = sprite[number-1];
+                break;
+            case 1:
+                spriteDown[j] = sprite[number-1];
+                break;
+            case 2:
+                spriteLeft[j] = sprite[number-1];
+                break;
+            case 3:
+                spriteRight[j] = sprite[number-1];
+                break;
+            }
+            number++;
+        }
+    }
 }
 void draw() {
 

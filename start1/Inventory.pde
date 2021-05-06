@@ -39,7 +39,7 @@ class Inventory {
                                 textSize(20);
                                 textAlign(CENTER);
                                 imageMode(CENTER);
-                                if (item.id < 12) {
+                                if (item.id < pic.length) {
                                     image(pic[item.id], inventoryItemsCoords.get(i).x+205/2, inventoryItemsCoords.get(i).y+150/2);
                                 }
                                 imageMode(CORNER);
