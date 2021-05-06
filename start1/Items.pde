@@ -23,10 +23,15 @@ class Items {
         speech = "Du har fundet \"" + name + "\"";
         pickedUp=true;
 
-        fill(255);
-        rect(0, height*0.55, width, height*0.45);
+        fill(0,200);
+        rect(5, height*0.55, width-10, height*0.45-5);
+        noFill();
+        stroke(192,192,192);
+        strokeWeight(5);
+        rect(5, height*0.55, width-10, height*0.45-5);
+        noStroke();
         if (counter <= speech.length()) {
-            fill(0);
+            fill(255);
             textSize(20);
             text(speech.substring(0, counter), 20, height*0.6, width-20, height);
             //println(speec.substring(0, counter));

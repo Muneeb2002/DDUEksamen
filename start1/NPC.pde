@@ -23,8 +23,7 @@ class NPC {
 
 
     void Speech() {
-        fill(255);
-        rect(0, height*0.55, width, height*0.45);
+        image(textBubble,5,height*0.55);
         for (TableRow row : NPCQuestTable.rows()) {
             //   if (isTalking == false) {
             if (row.getInt("questRelated") == 1 && row.getInt("questNumber")-1 == player.QuestNumber && row.getInt("NPCid") == id) {
@@ -114,7 +113,7 @@ class NPC {
         if (counter <= speech.length()) {
             fill(0);
             textSize(20);
-            text(speech.substring(0, counter), 20, height*0.6, width-20, height);
+            text(speech.substring(0, counter), 50, height*0.6, width-20, height);
             //println(speec.substring(0, counter));
             if (counter == speech.length()) {
                 counterInc=0;

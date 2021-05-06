@@ -1,3 +1,4 @@
+
 Player player;
 Shop shop;
 Penge penge;
@@ -10,6 +11,7 @@ PImage coin;
 PImage[] pic = new PImage[13];
 PImage[] npcDesign = new PImage [6];
 PImage chest;
+PImage textBubble;
 
 PImage[] sprite = new PImage[16];
 PImage[] spriteUp = new PImage[4];
@@ -19,6 +21,8 @@ PImage[] spriteDown = new PImage[4];
 PImage spritesheet;
 int W, H, h=4, w=4;
 
+PVector startScreen = new PVector(-500, -500);
+PVector startScreenMovement = new PVector(-2, 0);
 
 
 ArrayList<PVector> coord = new ArrayList<PVector>();
@@ -26,7 +30,6 @@ PVector location = new PVector(-500, -500);
 
 float squareSize;
 
-int alpha = 0;
 
 ArrayList<PVector> felter = new ArrayList<PVector>();
 PVector pos;
@@ -80,6 +83,8 @@ void Tables() {
 void images() {
     map = loadImage("/sprites/pic.png");
     coin = loadImage("/sprites/coins.png");
+    textBubble = loadImage("/sprites/textBubble.png");
+    textBubble.resize(width-10, int(height*0.45)-5);
     map.resize(map.width*2, map.height*2);
     coin.resize(30, 30);
     squareSize = map.width/105;
@@ -160,11 +165,50 @@ void coords() {
 }
 
 void startScreen() {
-    background(55);
+    image(map, startScreen.x, startScreen.y);
+    startScreen.add(startScreenMovement);
+    if (startScreen.x <= -2800 && startScreen.y >= -500) {
+        startScreenMovement.x = 0;
+        startScreenMovement.y = -2;
+    }
+    if (startScreen.x <= -2800 && startScreen.y <=-2100) {
+        startScreenMovement.x = 2;
+        startScreenMovement.y = 0;
+    }
+    if (startScreen.x >= -500 && startScreen.y <=-2100) {
+        startScreenMovement.x = 0;
+        startScreenMovement.y = 2;
+    }
+    if (startScreen.x >= -500 && startScreen.y >=-500) {
+        startScreenMovement.x = -2;
+        startScreenMovement.y = 0;
+    }
+
+    textAlign(CENTER);
+    fill(255,150);
+    rect(width/4, height/3, 2*(width/4), 50);
+    rect(width/4, 60+(height/3), 2*(width/4), 50);
+    rect(width/4, 120+(height/3), 2*(width/4), 50);
+    fill(0, 0, 255);
+    //textFont(mono);
+    text("PLAY", width/2, 30+(height/3));
+    text("How To Play", width/2, 90+(height/3));
+    text("Quit", width/2, 150+(height/3));
 }
 
 void mousePressed() {
+    if (mouseX>width/4 && mouseY >height/3 && mouseX<3*(width/4) && mouseY <50+(height/3)) {
+        showStartScreen = false;
+    }
 
+    if (mouseX>width/4 && mouseY >60+height/3 && mouseX<3*(width/4) && mouseY <60+50+(height/3)) {
+        fill(255);
+        rect(20, 20, 20, 20);
+    }
+
+    if (mouseX>width/4 && mouseY >120+height/3 && mouseX<3*(width/4) && mouseY <120+50+(height/3)) {
+        exit();
+    }
     for (int i =0; i<coord.size(); i++) {
         if (coord.get(i).x<mouseX-location.x && mouseX-location.x<coord.get(i).x + squareSize && coord.get(i).y<mouseY-location.y && mouseY-location.y-squareSize<coord.get(i).y && mousePressed) {
             //println(coord.get(i).x/48 + ", " + coord.get(i).y/48);
