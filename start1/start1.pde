@@ -161,10 +161,32 @@ void coords() {
 
 void startScreen() {
     background(55);
+    textAlign(CENTER);
+     fill(255);
+    rect(width/4,height/3,2*(width/4),50);
+    rect(width/4,60+(height/3),2*(width/4),50);
+    rect(width/4,120+(height/3),2*(width/4),50);
+    fill(0,0,255);
+    //textFont(mono);
+    text("PLAY",width/2,30+(height/3));
+    text("How To Play",width/2,90+(height/3));
+    text("Quit",width/2,150+(height/3));
 }
 
 void mousePressed() {
+if(mouseX>width/4 && mouseY >height/3 && mouseX<3*(width/4) && mouseY <50+(height/3)){
+showStartScreen = false;
+}
 
+if(mouseX>width/4 && mouseY >60+height/3 && mouseX<3*(width/4) && mouseY <60+50+(height/3)){
+  fill(255);
+rect(20,20,20,20);
+}
+
+if(mouseX>width/4 && mouseY >120+height/3 && mouseX<3*(width/4) && mouseY <120+50+(height/3)){
+exit();
+}
+  
     for (int i =0; i<coord.size(); i++) {
         if (coord.get(i).x<mouseX-location.x && mouseX-location.x<coord.get(i).x + squareSize && coord.get(i).y<mouseY-location.y && mouseY-location.y-squareSize<coord.get(i).y && mousePressed) {
             //println(coord.get(i).x/48 + ", " + coord.get(i).y/48);
