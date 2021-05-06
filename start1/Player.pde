@@ -22,8 +22,6 @@ class Player {
     Player() {
     }
     void display() {
-        noFill();
-        circle(0, 0, playerDia);
         if (current == 4) {
             current = 0;
         }
@@ -45,17 +43,17 @@ class Player {
         }
         imageMode(CORNER);
     }
-    void direction(int dir){
-        if(dir != 0){
+    void direction(int dir) {
+        if (dir != 0) {
             faceLeft = false;
         }
-        if(dir != 1){
+        if (dir != 1) {
             faceRight = false;
         }
-        if(dir != 2){
+        if (dir != 2) {
             faceUp = false;
         }
-        if(dir != 3){
+        if (dir != 3) {
             faceDown = false;
         }
     }
@@ -164,12 +162,11 @@ class Player {
                 if (n.NPClocation.x  == shop.shopLocation.x && n.NPClocation.y == shop.shopLocation.y ) {
                     shop.display();
                     shop.itemBuy();
-                } else {
+                }
 
-                    for (TableRow row : NPCQuestTable.rows()) {
-                        if (n.id == row.getInt("NPCid")) {
-                            n.Speech();
-                        }
+                for (TableRow row : NPCQuestTable.rows()) {
+                    if (n.id == row.getInt("NPCid")) {
+                        n.Speech();
                     }
                 }
             }
@@ -228,7 +225,6 @@ void keyPressed() {
                 player.faceLeft = true;
                 player.moving=true;
                 player.direction(0);
-                
             }
             if (key == 'd') {
                 player.movedirRight=true;
@@ -264,22 +260,22 @@ void keyPressed() {
 void keyReleased() {
     if (key == 'a') {
         player.movedirLeft = false;
-       
+
         player.moving=false;
     }
     if (key == 'd') {
         player.movedirRight=false;
-       
+
         player.moving=false;
     }
     if (key == 'w') {
         player.movedirUp=false;
-        
+
         player.moving=false;
     }
     if (key == 's') {
         player.movedirDown=false;
-        
+
         player.moving=false;
     }
     player.keyIsPressed=false;

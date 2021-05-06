@@ -8,6 +8,7 @@ ArrayList <Items> items;
 PImage map;
 PImage coin;
 PImage[] pic = new PImage[13];
+PImage[] npcDesign = new PImage [6];
 PImage chest;
 
 PImage[] sprite = new PImage[16];
@@ -59,7 +60,7 @@ void setup() {
 void Tables() { 
     NPCTable = loadTable("NPCID.csv", "header");
     for (TableRow row : NPCTable.rows()) {
-        npc.add(new NPC(row.getInt("id"), row.getInt("x"), row.getInt("y")));
+        npc.add(new NPC(row.getInt("id"), row.getInt("x"), row.getInt("y"), row.getInt("picture")));
         pos =  new PVector(row.getInt("x"), row.getInt("y")); 
         felter.add(pos);
         if (row.getInt("shop") == 1) {
@@ -87,6 +88,10 @@ void images() {
         pic[j] = loadImage("/sprites/pic"+j+".png");
         pic[j].resize(2*int(squareSize), 2*int(squareSize));
     }
+    for (int j = 1; j < npcDesign.length; j++) {
+        npcDesign[j] = loadImage("/sprites/NPC"+j+".png");
+        npcDesign[j].resize(int(squareSize*1.2), int(squareSize*1.2));
+    }
     chest = loadImage("/sprites/chest.png");
     chest.resize(int(squareSize), int(squareSize));
     int number = 1;
@@ -96,7 +101,7 @@ void images() {
     for (int i = 0; i < h; i++) {
         for (int j = 0; j < w; j++) {
             sprite[number-1] = spritesheet.get(j*H, i*W, H, W);
-            sprite[number-1].resize(int(squareSize), int(squareSize));
+            sprite[number-1].resize(int(squareSize*1.2), int(squareSize*1.2));
             switch (i+1) {
             case 4:
                 spriteUp[j] = sprite[number-1];

@@ -5,19 +5,20 @@ class NPC {
     int counter = 0;
     int counterInc = 1;
     int speechOf = 1;
+    int pic;
     boolean once = true;
     String speech = "";
     boolean speechIsFinished;
     boolean isTalking;
     boolean done;
-    NPC(int id_, int locX, int locY) {
+    NPC(int id_, int locX, int locY, int picture) {
         NPClocation = new PVector(locX, locY);
         id = id_;
+        pic = picture;
     }
 
     void display() {
-        fill(57, 255, 20);
-        square(NPClocation.x*squareSize+location.x, NPClocation.y*squareSize+location.y, NPCDia);
+        image(npcDesign[pic],NPClocation.x*squareSize+location.x-5,NPClocation.y*squareSize+location.y-10);
     }
 
 
