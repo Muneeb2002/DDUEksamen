@@ -38,7 +38,7 @@ Table shopTable;
 Table itemsTable;
 Table questItemTable;
 
-boolean showFelter;
+boolean showStartScreen = true;
 
 void setup() {
     size(800, 800);
@@ -88,8 +88,8 @@ void images() {
         pic[j] = loadImage("/sprites/pic"+j+".png");
         pic[j].resize(2*int(squareSize), 2*int(squareSize));
     }
-    for (int j = 1; j < npcDesign.length; j++) {
-        npcDesign[j] = loadImage("/sprites/NPC"+j+".png");
+    for (int j = 0; j < npcDesign.length; j++) {
+        npcDesign[j] = loadImage("/sprites/NPC"+(j+1)+".png");
         npcDesign[j].resize(int(squareSize*1.2), int(squareSize*1.2));
     }
     chest = loadImage("/sprites/chest.png");
@@ -121,39 +121,27 @@ void images() {
     }
 }
 void draw() {
-
-    pushMatrix();
-    image(map, location.x, location.y);
-    if (showFelter) {
-        for (int i =0; i<coord.size(); i++) {
-
-            for (int j =0; j<felter.size(); j++) {
-                alpha = 0;
-
-                if (coord.get(i).x/squareSize == felter.get(j).x && coord.get(i).y/squareSize == felter.get(j).y) {
-                    alpha=255;
-                    fill(255, 105, 180, alpha);
-                    square(coord.get(i).x+location.x, coord.get(i).y+location.y, squareSize);
-                }
-            }
+    startScreen();
+    if (showStartScreen == false) {
+        pushMatrix();
+        image(map, location.x, location.y);
+        for (NPC n : npc) {
+            n.display();
         }
-    }
-    for (NPC n : npc) {
-        n.display();
-    }
-    for (Items i : items) {
-        i.display();
-    }
-    translate(width/2, height/2);
-    player.display();
+        for (Items i : items) {
+            i.display();
+        }
+        translate(width/2, height/2);
+        player.display();
 
-    popMatrix();
+        popMatrix();
 
-    penge.display();
-    player.collision();
-    player.move();
-    if (inventory.showInventory) {
-        inventory.display();
+        penge.display();
+        player.collision();
+        player.move();
+        if (inventory.showInventory) {
+            inventory.display();
+        }
     }
 }
 
@@ -171,11 +159,15 @@ void coords() {
     }
 }
 
+void startScreen() {
+    background(55);
+}
+
 void mousePressed() {
 
     for (int i =0; i<coord.size(); i++) {
         if (coord.get(i).x<mouseX-location.x && mouseX-location.x<coord.get(i).x + squareSize && coord.get(i).y<mouseY-location.y && mouseY-location.y-squareSize<coord.get(i).y && mousePressed) {
-            // println(coord.get(i).x/48 + ", " + coord.get(i).y/48);
+            //println(coord.get(i).x/48 + ", " + coord.get(i).y/48);
         }
     }
 }
