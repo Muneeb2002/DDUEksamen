@@ -16,6 +16,7 @@ class Items {
     }
     void display() {
         if (showtext) {
+
             image(chest, itemsLocation.x*squareSize+location.x+5, itemsLocation.y*squareSize+location.y);
         }
     }
@@ -23,17 +24,17 @@ class Items {
         speech = "Du har fundet \"" + name + "\"";
         pickedUp=true;
 
-        fill(0,200);
+        fill(0, 200);
         rect(5, height*0.55, width-10, height*0.45-5);
         noFill();
-        stroke(192,192,192);
+        stroke(192, 192, 192);
         strokeWeight(5);
         rect(5, height*0.55, width-10, height*0.45-5);
         noStroke();
         if (counter <= speech.length()) {
             fill(255);
             textSize(20);
-            text(speech.substring(0, counter), 20, height*0.6, width-20, height);
+            text(speech.substring(0, counter), 20, height*0.6, width-30, height);
             //println(speec.substring(0, counter));
             if (counter == speech.length()) {
                 counterInc=0;

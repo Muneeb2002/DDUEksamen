@@ -16,6 +16,7 @@ class Inventory {
     }
 
     void display () {
+        
         fill(255);
         rect(50, 50, 700, 700);
         textAlign(CENTER);
@@ -27,6 +28,8 @@ class Inventory {
     void showInventory() {
         for (int i = 0; i<inventoryItemsCoords.size(); i++) {
             noFill();
+            stroke(0);
+            strokeWeight(2);
             rect(inventoryItemsCoords.get(i).x, inventoryItemsCoords.get(i).y, 200, 200);
             for (Items item : items) {
                 for (TableRow row : itemsTable.rows()) {

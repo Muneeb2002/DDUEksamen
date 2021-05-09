@@ -19,6 +19,7 @@ class Shop {
     }
   }
   void display() {
+      stroke(0);
     fill(255, 255, 255);
     rect(50, 50, 700, 350);
     shopItems();

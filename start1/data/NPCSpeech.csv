@@ -1,14 +1,34 @@
 NPCid,questRelated,questNumber,questString,number,of,nonQuestString,start,outOf,reward,quiz
-1,1,1,"Go To The Other NPC",1,2,"",1,3,0,
-1,1,1,"Go To The Other NPCGo To The Other NPCGo To The Other NPCGo To The Other NPCGo To The Other NPC",2,2,"",1,3,0,
-3,1,1,"Wrong Go To The Other NPC",1,2,"",2,3,0,
-3,1,1,"Wrong Go To The Other NPCWrong Go To The Other NPCWrong Go To The Other NPCWrong Go To The Other NPCWrong Go To The Other NPC",2,2,"",2,3,0,
-2,1,1,"Nice Job Bitch, here is some cash",1,2,"",3,3,200,1
-2,1,1,"Nice Job Bitch, here is some cashNice Job Bitch, here is some cashNice Job Bitch, here is some cashNice Job Bitch, here is some cashNice Job Bitch, here is some cash",2,2,"",3,3,200,1
-2,1,2,"sdfsdfds",1,1,"",1,2,0
-3,1,2,"sdfsdfds",1,1,"",2,2,2000
-1,0,0,"",,,"Howdy bitch",,,,
-2,0,0,"",,,"Moshi mosh bitch",,,,
+1,1,1,"Velkommen til! Dig har jeg hørt om. Du er kommet for at hjælpe til med undersøgelserne ik?",1,6,"",1,3,0,
+1,1,1,"Virkeligt!. Det er perfekt at høre",2,6,"",1,3,0,
+1,1,1,"Okay lad mig starte med at førtælle dig hvad du skal gøre",3,6,"",1,3,0,
+1,1,1,"Din første opgave er at du skal hjælpe en professer med at undersøge nogle kilder vi har fundet,",4,6,"",1,3,0,
+1,1,1,"Men før du kan skal du lige have lidt baggrund historie. Du får også lige en genopfriskning af kildekritik som du kommer til at bruge når du skal hjælpe professeren",5,6,"",1,3,0,
+1,1,1,"Så start med at tage hen til pigen i den gule kjole, hun skal nok lærer dig alt om kildekritik. Hvis du allerede ved det så bliver det nemt for dig at forstå",6,6,"",1,3,0,
+3,1,1,"Ahh Du er den nye ik?",1,11,"",2,3,0,
+3,1,1,"Godt jeg har ventet på dig i et stykke tid. Så jeg håber du er parat fordi jeg kommer til at banke kildekritiken ind i dig",2,11,"",2,3,0,
+3,1,1,"Ahh kildekritik, noget af det vigtigste at gøre når man undersøger ting, men de fleste glemmer. I kildekritik ser du på kilden kritisk. Det siger lidt sig selv, men du stiller kilden spørgsmål. Det kunne være hvem der har skrevet kilden og hvorfor, måske havde kildens forfatter en grund til at ikke at fortælle kilden i sin sandhed",3,11,"",2,3,0,
+3,1,1,"Hvorvidt kilden er en primær eller en sekundær kilde. En sekundær kilde er en kilde som er bygget på en anden kilde, det kunne være så som en genfortælling, den ældste kendte version er kilden kaldes for den primære kilde.",4,11,"",2,3,0,
+3,1,1,"Hvornår kilden er skrevet har også en betydning, hvis kilden er skrevet hundrede år efter begivenheden så kan det være en sekundær kilde, hvis andre versioner af kilden eksisterer.",5,11,"",2,3,0,
+3,1,1,"Hvis personen der har skrevet kilden, var med til begivenheden så ville det være en førstehåndskilde, men hvis den er blevet genfortalt af en anden person er det en andenhåndskilde.",6,11,"",2,3,0,
+3,1,1,"Hvem kilden er skrevet til er også rigtigt vigtigt, hvis kildens forfatter ved hvem der kommer til at læse kilden så kan forfatteren vælge hvad modtageren skal vide og ikke vide.",7,11,"",2,3,0,
+3,1,1,"Det sidste, men det vigtigste er hvad siger andre kilder? Hvis en kilde siger en ting, men alle andre fortæller noget andet så er det svært at vide hvilken kilde har ret. Hvis du mestre disse ting kan du også blive en ekspert i kildekritik.",8,11,"",2,3,0,
+3,1,1,"phew. var det ikke meget, hvis det var for svært at forstå, så skal jeg nok fortælle det hele igen inden du gå videre, men kun hvis du spørg pænt",9,11,"",2,3,0,
+3,1,1,"Før du gå videre, du samlede sikkert noget op på vej her hen ik? Det er en item, den item du fandt giver dig lov til at snakke med nogle specifikke folk ligesom en slags billet",10,11,"",2,3,0,
+3,1,1,"Dregnen i den røde over på den ende af vej, han skal nok fortælle dig hele baggrunds historien inden du rigtigt begynder på din opgaver, men kun hvis du giver ham billetten. PS Du kan se de ting du har fundet ved at trykke 'i'",11,11,"",2,3,0,
+
+2,1,1,"Jeg går ud fra at du må være de nye. Ah godt du har allerede fundet en billet. Det var godt. Jeg må faktisk ikke fortælle dig noget som helst før du har givet mig den. Er du klar til historie lektionen?",1,6,"",3,3,0,
+2,1,1,"For længe siden var der blevet udkæmpet en krig mellem to krigsførende nationer. Efter et års kampen sluttede krigen, men på bekostning af utallige døde.",2,6,"",3,3,0,
+2,1,1,"Det siges at de to nationer brudte i krig da den tabende nation startede krigen for at overtage den anden nations land, der i hvert fald sådan historien er blevet fortalt, men ved nogle ekskaveringer for nye lidt er der blevet fundet nogle dokumenter der måske viser noget andet.",3,6,"",3,3,0,
+2,1,1,"Alle dokumenterne, undtagen to, er blevet undersøgt, det eneste der mangler er at finde de to sidste dokumenter, og sammenligne dem og finde ud af om disse kilder viser noget andet.",4,6,"",3,3,0,
+2,1,1,"Det er her du kommer ind i spillet, du skal tage ud i ørkenen og finde den lejr hvor professoren er og hjælpe ham. Hvis du ikke kan finde ham, er der måske nogle folk, der kan hjælpe dig på din vej.",5,6,"",3,3,0,
+2,1,1,"Men før du kan begynde din mission, skal du lige vide hvor professeren er henne, hvis jeg husker rigtigt så ved hende du snakkede med først da du kom her hen hvor han er. Du kan også lige få nogle penge for at gøre din mission lidt nemmere",6,6,"",3,3,200,
+
+23,1,1,"Ahh Du er den nye ik?",1,11,"",1,2,0,
+
+
+1,0,0,"",,,"Din første Quest begynder hos professeren. Du finder ham i ørknen, ved at følge den sten belagte vej",,,,
+2,0,0,"",,,"Penge Kan bruges i shoppen der ligger ved kroen i frøst byen, der kan man købe nogle forskellige ting, der kan gøre dit ophold nemmere",,,,
 3,0,0,"",,,"Hello mother Fucker",,,,
 4,0,0,"",,,"Da jeg var mindre, lignede det her hus et palads, men nu vil de rive det ned",,,,
 5,0,0,"",,,"Velkommen til shoppen, vil du købe et hint der kan hjælpe dig på vej?",,,,

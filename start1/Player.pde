@@ -6,8 +6,9 @@ class Player {
     boolean moving;
     boolean questActive;
     boolean questCompleted;
-    boolean questCompleted2;
-
+    boolean showBubble = true;
+    boolean closeToNPC;
+    boolean movementBlocked;
     float playerDia = squareSize*0.60;
     int movementSpeed = 4;
     int QuestNumber = 0;
@@ -19,6 +20,8 @@ class Player {
     int pickedup = 0;
     int givenAway = 0;
     int current = 0;
+    int[] NPCInQuest;
+
     Player() {
     }
     void display() {
@@ -62,13 +65,13 @@ class Player {
 
         if (movedirLeft && dirLeft) {
             location.x+=movementSpeed;
-        }
+        } 
         if (movedirRight && dirRight) {
             location.x-=movementSpeed;
-        }
+        } 
         if (movedirUp && dirUp) {
             location.y+=movementSpeed;
-        }
+        } 
         if (movedirDown && dirDown) {
             location.y-=movementSpeed;
         }
@@ -89,8 +92,6 @@ class Player {
                 dirUp = false;
                 npcProx(j);
             }
-
-
             //Down
             if (width/2-location.x > felter.get(j).x*squareSize-playerDia*0.4 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia*0.4
                 && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4-col && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4) {
@@ -120,14 +121,12 @@ class Player {
                         n.counterInc = 1;
                         n.speechIsFinished = false;
                         n.isTalking = false;
-                        if (questCompleted) {
-                            questCompleted = false;
-                            questCompleted2 = true;
-                        }
                     }
                 }
             }
-            if (questCompleted2) {
+
+            if (questCompleted && questActive) {
+
                 questActive = false;
                 QuestNumber++;
                 for (int i = 0; i < itemsNeeded.length; i++) {
@@ -139,7 +138,7 @@ class Player {
                 penge.currentValue += reward;
                 reward = 0;
                 questComp = 0;
-                questCompleted2 = false;
+                questCompleted = false;
             }
             for (Items i : items) {
                 if (i.pickedUp) {
@@ -218,65 +217,70 @@ class Player {
 
 
 void keyPressed() {
-    if (player.keyIsPressed==false) {
-        if (keyPressed) {
-            if (key == 'a') {
-                player.movedirLeft = true;
-                player.faceLeft = true;
-                player.moving=true;
-                player.direction(0);
-            }
-            if (key == 'd') {
-                player.movedirRight=true;
-                player.faceRight = true;
-                player.moving=true;
-                player.direction(1);
-            }
-            if (key == 'w' ) {
-                player.movedirUp=true;
-                player.faceUp = true;
-                player.moving=true;
-                player.direction(2);
-            }
-            if (key == 's') {
-                player.movedirDown=true;
-                player.faceDown = true;
-                player.moving=true;
-                player.direction(3);
-            }
-            player.keyIsPressed = true;
-        }
-        if (key == 'i') {
+    if (gameBegun) {
+            if (player.keyIsPressed==false) {
+                if (keyPressed) {
+                    if (key == 'a' || key == 'A') {
+                        player.movedirLeft = true;
+                        player.faceLeft = true;
+                        player.moving=true;
+                        player.direction(0);
+                    }
+                    if (key == 'd'  || key == 'D') {
+                        player.movedirRight=true;
+                        player.faceRight = true;
+                        player.moving=true;
+                        player.direction(1);
+                    }
+                    if (key == 'w'  || key == 'W') {
+                        player.movedirUp=true;
+                        player.faceUp = true;
+                        player.moving=true;
+                        player.direction(2);
+                    }
+                    if (key == 's' || key == 'S') {
+                        player.movedirDown=true;
+                        player.faceDown = true;
+                        player.moving=true;
+                        player.direction(3);
+                    }
+                    player.keyIsPressed = true;
+                }
+                if (key == 'i' || key == 'I') {
 
-            if (inventory.showInventory) {
-                inventory.showInventory= false;
-            } else {
-                inventory.showInventory= true;
+                    if (inventory.showInventory) {
+                        inventory.showInventory= false;
+                    } else {
+                        inventory.showInventory= true;
+                    }
+                }
             }
-        }
+        
     }
 }
 
 void keyReleased() {
-    if (key == 'a') {
-        player.movedirLeft = false;
+    if (gameBegun) {
+        if (key == 'a' || key == 'A') {
+            player.movedirLeft = false;
 
-        player.moving=false;
-    }
-    if (key == 'd') {
-        player.movedirRight=false;
+            player.moving=false;
+        }
+        if (key == 'd' || key == 'D') {
+            player.movedirRight=false;
 
-        player.moving=false;
-    }
-    if (key == 'w') {
-        player.movedirUp=false;
+            player.moving=false;
+        }
+        if (key == 'w' || key == 'W') {
+            player.movedirUp=false;
 
-        player.moving=false;
-    }
-    if (key == 's') {
-        player.movedirDown=false;
+            player.moving=false;
+        }
+        if (key == 's' || key == 'S') {
+            player.movedirDown=false;
 
-        player.moving=false;
+            player.moving=false;
+        }
+        player.keyIsPressed=false;
     }
-    player.keyIsPressed=false;
 }

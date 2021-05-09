@@ -8,7 +8,7 @@ ArrayList <Items> items;
 
 PImage map;
 PImage coin;
-PImage[] pic = new PImage[13];
+PImage[] pic = new PImage[14];
 PImage[] npcDesign = new PImage [6];
 PImage chest;
 PImage textBubble;
@@ -22,13 +22,16 @@ PImage[] spriteDown = new PImage[4];
 PImage spritesheet;
 int W, H, h=4, w=4;
 
+int storyCounter, storyCounterInc = 1, storyOf=1;
+String storySpeech;
+
 PVector startScreen = new PVector(-500, -500);
 PVector startScreenMovement = new PVector(-2, 0);
 
 
 ArrayList<PVector> coord = new ArrayList<PVector>();
-PVector location = new PVector(-500, -500);
-
+PVector location = new PVector(-588, -428);
+PVector triangleLocation = new PVector(729, 756, -1);
 float squareSize;
 
 
@@ -41,8 +44,16 @@ Table questTable;
 Table shopTable;
 Table itemsTable;
 Table questItemTable;
+Table storyTable;
 
 boolean showStartScreen = true;
+boolean gameBegun;
+boolean transitionScreen;
+boolean transitionScreenCoordOnce=true;
+boolean howToPlay;
+boolean storyScreen;
+ArrayList<PVector> transitionScreenCoord = new ArrayList<PVector>();
+
 
 void setup() {
     size(800, 800);
@@ -60,7 +71,7 @@ void setup() {
         player.itemsPicked[i] = 100;
     }
     penge = new Penge (420420);
-     font = loadFont("UGLYBYTEFONT.vlw");
+    font = createFont("font.ttf", 60);
 }
 void Tables() { 
     NPCTable = loadTable("NPCID.csv", "header");
@@ -75,6 +86,7 @@ void Tables() {
     NPCQuestTable = loadTable("NPCSpeech.csv", "header");
     questTable = loadTable("Quests.csv", "header");
     shopTable = loadTable("shop.csv", "header");
+    storyTable = loadTable("story.csv", "header");
     itemsTable = loadTable("items.csv", "header");
     for (TableRow row : itemsTable.rows()) {
         if (row.getInt("quest")==0) {
@@ -128,26 +140,38 @@ void images() {
     }
 }
 void draw() {
-    startScreen();
+    
+    textFont(font);
+    if (showStartScreen) {
+        startScreen();
+    }
     if (showStartScreen == false) {
-        pushMatrix();
-        image(map, location.x, location.y);
-        for (NPC n : npc) {
-            n.display();
+        if (storyScreen) {
+            StoryScreen();
         }
-        for (Items i : items) {
-            i.display();
+        if (transitionScreen) {
+            TransitionScreen();
         }
-        translate(width/2, height/2);
-        player.display();
+        if (gameBegun) {
+            pushMatrix();
+            image(map, location.x, location.y);
+            for (NPC n : npc) {
+                n.display();
+            }
+            for (Items i : items) {
+                i.display();
+            }
+            translate(width/2, height/2);
+            player.display();
 
-        popMatrix();
+            popMatrix();
 
-        penge.display();
-        player.collision();
-        player.move();
-        if (inventory.showInventory) {
-            inventory.display();
+            penge.display();
+            player.collision();
+            player.move();
+            if (inventory.showInventory) {
+                inventory.display();
+            }
         }
     }
 }
@@ -185,40 +209,157 @@ void startScreen() {
         startScreenMovement.x = -2;
         startScreenMovement.y = 0;
     }
-
+    if (howToPlay == false) {
+        textAlign(CENTER);
+        fill(255, 150);
+        rect(width/4, height/3, 2*(width/4), 50);
+        rect(width/4, 60+(height/3), 2*(width/4), 50);
+        rect(width/4, 120+(height/3), 2*(width/4), 50);
+        fill(0, 0, 255);
+        //textFont(font);
+        textSize(20);
+        text("PLAY", width/2, 30+(height/3));
+        text("How To Play", width/2, 90+(height/3));
+        text("Quit", width/2, 150+(height/3));
+    } else {
+        HowToPlay();
+    }
+}
+void HowToPlay() {
+    fill(255, 150);
+    rect(100, 100, 600, 600);
+    fill(255);
+    textSize(20);
+    textAlign(LEFT);
+    text("X", 105, 120);
+    if (mousePressed) {
+        if (mouseX >105 && mouseX < 125 && mouseY >100 && mouseY < 120 ) {
+            println("off");
+            howToPlay = false;
+        }
+    }
     textAlign(CENTER);
-    fill(255,150);
-    rect(width/4, height/3, 2*(width/4), 50);
-    rect(width/4, 60+(height/3), 2*(width/4), 50);
-    rect(width/4, 120+(height/3), 2*(width/4), 50);
-    fill(0, 0, 255);
-    textFont(font);
-    text("PLAY", width/2, 30+(height/3));
-    text("How To Play", width/2, 90+(height/3));
-    text("Quit", width/2, 150+(height/3));
+    textSize(30);
+    text("Instruktioner", width/2, 130);
+}
+void StoryScreen() {
+    background(0);
+    image(textBubble, 5, height*0.55);
+
+    for (TableRow row : storyTable.rows()) {
+        // println(row.getInt("outOf"));
+        if (storyOf == row.getInt("number")) {
+            storySpeech = row.getString("story");
+        }
+        if (storyOf >row.getInt("outOf") ) {
+            storyScreen = false;
+            transitionScreen = true;
+        }
+    }
+    if (storyCounter <= storySpeech.length()) {
+        fill(0);
+        textSize(15);
+        textAlign(LEFT);
+        text(storySpeech.substring(0, storyCounter), 50, height*0.6, width-100, height);
+        //println(speec.substring(0, storyCounter));
+        if (storyCounter == storySpeech.length()) {
+            storyCounterInc=0;
+            fill(0);
+            if (triangleLocation.y < 751) {
+                triangleLocation.z = 1;
+            }
+            if (triangleLocation.y > 761) {
+                triangleLocation.z = -1;
+            }
+            triangleLocation.y += triangleLocation.z;
+            triangle(triangleLocation.x, triangleLocation.y, triangleLocation.x-10, triangleLocation.y-20, triangleLocation.x+10, triangleLocation.y-20);
+            if (mousePressed) {
+                storyOf++;
+                storyCounter = 0;
+                storyCounterInc = 1;
+            }
+        }
+    }
+
+    storyCounter+=storyCounterInc;
+}
+void TransitionScreen() {
+    image(map, location.x, location.y);
+
+    for (NPC n : npc) {
+        n.display();
+    }
+    for (Items i : items) {
+        i.display();
+    }
+    imageMode(CENTER);
+    image(spriteDown[0], width/2, height/2-10);
+    imageMode(CORNER);
+    if (transitionScreenCoordOnce) {
+
+        for (int i = 0; i < 20; i++) {
+            for (int j = 0; j < 20; j++) {
+                transitionScreenCoord.add(new PVector(i, j, 255));
+            }
+        }
+        transitionScreenCoordOnce = false;
+    }
+
+
+    for (int i = 0; i < transitionScreenCoord.size(); i++) {
+        noStroke();
+        fill(0, transitionScreenCoord.get(i).z);
+        rect(transitionScreenCoord.get(i).x*width/20, transitionScreenCoord.get(i).y*height/20, width/20, height/20);
+    }
+
+
+    for (int i = 0; i < transitionScreenCoord.size()+1; i = int(random(0, transitionScreenCoord.size()))) {
+        if (transitionScreenCoord.get(i).z == 255) {
+            transitionScreenCoord.get(i).z = 0;
+            break;
+        }
+    }
+
+    boolean allGone = true;
+    for (int i = 0; i < transitionScreenCoord.size(); i++) {
+        if (transitionScreenCoord.get(i).z == 255) {
+            allGone = false;
+        }
+    }
+    if (keyPressed) {
+        allGone = true;
+    }
+    if (allGone) {
+        gameBegun = true;
+        transitionScreen = false;
+    }
 }
 
 void mousePressed() {
-    if (mouseX>width/4 && mouseY >height/3 && mouseX<3*(width/4) && mouseY <50+(height/3)) {
+    if (mouseX>width/4 && mouseY >height/3 && mouseX<3*(width/4) && mouseY <50+(height/3) && showStartScreen) {
         showStartScreen = false;
+        storyScreen = true;
     }
 
-    if (mouseX>width/4 && mouseY >60+height/3 && mouseX<3*(width/4) && mouseY <60+50+(height/3)) {
-        fill(255);
-        rect(20, 20, 20, 20);
+    if (mouseX>width/4 && mouseY >60+height/3 && mouseX<3*(width/4) && mouseY <60+50+(height/3) && showStartScreen) {
+        howToPlay = true;
     }
 
-    if (mouseX>width/4 && mouseY >120+height/3 && mouseX<3*(width/4) && mouseY <120+50+(height/3)) {
+    if (mouseX>width/4 && mouseY >120+height/3 && mouseX<3*(width/4) && mouseY <120+50+(height/3)&& showStartScreen) {
         exit();
     }
     for (int i =0; i<coord.size(); i++) {
         if (coord.get(i).x<mouseX-location.x && mouseX-location.x<coord.get(i).x + squareSize && coord.get(i).y<mouseY-location.y && mouseY-location.y-squareSize<coord.get(i).y && mousePressed) {
-            //println(coord.get(i).x/48 + ", " + coord.get(i).y/48);
+           // println(coord.get(i).x/48 + ", " + coord.get(i).y/48);
         }
     }
 }
 void mouseReleased() {
-
+    if (storyScreen) {
+        if (storyCounter > 10) {
+            storyCounter = storySpeech.length();
+        }
+    }
     if (shop.mouseRel) {
         shop.mouseRel=false;
     }
