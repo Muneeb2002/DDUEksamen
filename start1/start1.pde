@@ -70,7 +70,7 @@ void setup() {
     for (int i = 0; i < player.itemsPicked.length; i++) {
         player.itemsPicked[i] = 100;
     }
-    penge = new Penge (420420);
+    penge = new Penge (99999999);
     font = createFont("font.ttf", 60);
 }
 void Tables() { 
@@ -90,7 +90,7 @@ void Tables() {
     itemsTable = loadTable("items.csv", "header");
     for (TableRow row : itemsTable.rows()) {
         if (row.getInt("quest")==0) {
-            items.add(new Items(row.getInt("x"), row.getInt("y"), row.getString("name"), row.getInt("itemNr")));
+            items.add(new Items(row.getInt("x"), row.getInt("y"), row.getString("name"), row.getInt("itemNr"), row.getInt("inQuest")));
         }
     }
 }
@@ -140,7 +140,6 @@ void images() {
     }
 }
 void draw() {
-    
     textFont(font);
     if (showStartScreen) {
         startScreen();
@@ -350,7 +349,7 @@ void mousePressed() {
     }
     for (int i =0; i<coord.size(); i++) {
         if (coord.get(i).x<mouseX-location.x && mouseX-location.x<coord.get(i).x + squareSize && coord.get(i).y<mouseY-location.y && mouseY-location.y-squareSize<coord.get(i).y && mousePressed) {
-           // println(coord.get(i).x/48 + ", " + coord.get(i).y/48);
+            println(coord.get(i).x/48 + ", " + coord.get(i).y/48);
         }
     }
 }

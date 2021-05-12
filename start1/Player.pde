@@ -9,6 +9,7 @@ class Player {
     boolean showBubble = true;
     boolean closeToNPC;
     boolean movementBlocked;
+    boolean isTalking;
     float playerDia = squareSize*0.60;
     int movementSpeed = 4;
     int QuestNumber = 0;
@@ -119,8 +120,11 @@ class Player {
                         n.counter = 0;
                         n.speechOf = 1;
                         n.counterInc = 1;
+                        isTalking = false;
                         n.speechIsFinished = false;
-                        n.isTalking = false;
+                        if (n.NPClocation.x  == shop.shopLocation.x && n.NPClocation.y == shop.shopLocation.y ) {
+                            shop.shopSpeeking = false;
+                        }
                     }
                 }
             }
@@ -149,6 +153,10 @@ class Player {
                             felter.remove(j);
                             break;
                         }
+                        if (i.showtext == false) {
+                            felter.remove(j);
+                            break;
+                        }
                     }
                 }
             }
@@ -173,41 +181,43 @@ class Player {
     }
 
     void itemProx(int j) {
-        for (Items i : items) {
-            if (felter.get(j) == i.itemsLocation) {
-                for (TableRow row : itemsTable.rows()) {
-                    if (row.getInt("cash") !=0 && i.cashGiven == false && i.id == row.getInt("itemNr")) {
-                        penge.currentValue+=row.getInt("cash");
-                        i.cashGiven = true;
-                    }
-                }
-                if (i.showtext) {
-                    if (i.pickedUp == false && i.cashGiven == false) {
-                        inventory.itemsNumber++;
-                    }
-                    i.textmsg();
-                }
-                if (i.pickedUp && i.cashGiven == false) {
-                    if (i.showItem) {
-                        itemsPickedUp = inventory.itemsNumber-givenAway;
-
-                        i.itemsLocation.set( i.itemsLocation.x, i.itemsLocation.y, itemsPickedUp);
-                        i.showItem = false;
-                    }
-
-                    for (TableRow rows : itemsTable.rows()) {
-                        //for (TableRow rows : questTable.rows()) {
-                        if (rows.getString("name")==i.name) {
-
-
-                            if (QuestNumber == rows.getInt("quest")-1 && rows.getInt("pickedUp") == 0) {
-
-                                itemsPicked[pickedup] = (rows.getInt("itemNr"));
-                                pickedup++;
-                            }
-                            rows.setInt("pickedUp", 1);
+        if (isTalking == false) {
+            for (Items i : items) {
+                if (felter.get(j) == i.itemsLocation) {
+                    for (TableRow row : itemsTable.rows()) {
+                        if (row.getInt("cash") !=0 && i.cashGiven == false && i.id == row.getInt("itemNr")) {
+                            penge.currentValue+=row.getInt("cash");
+                            i.cashGiven = true;
                         }
-                        //}
+                    }
+                    if (i.showtext) {
+                        if (i.pickedUp == false && i.cashGiven == false) {
+                            inventory.itemsNumber++;
+                        }
+                        i.textmsg();
+                    }
+                    if (i.pickedUp && i.cashGiven == false) {
+                        if (i.showItem) {
+                            itemsPickedUp = inventory.itemsNumber-givenAway;
+
+                            i.itemsLocation.set( i.itemsLocation.x, i.itemsLocation.y, itemsPickedUp);
+                            i.showItem = false;
+                        }
+
+                        for (TableRow rows : itemsTable.rows()) {
+                            //for (TableRow rows : questTable.rows()) {
+                            if (rows.getString("name")==i.name) {
+
+
+                                if (QuestNumber == rows.getInt("quest")-1 && rows.getInt("pickedUp") == 0) {
+
+                                    itemsPicked[pickedup] = (rows.getInt("itemNr"));
+                                    pickedup++;
+                                }
+                                rows.setInt("pickedUp", 1);
+                            }
+                            //}
+                        }
                     }
                 }
             }
@@ -218,44 +228,43 @@ class Player {
 
 void keyPressed() {
     if (gameBegun) {
-            if (player.keyIsPressed==false) {
-                if (keyPressed) {
-                    if (key == 'a' || key == 'A') {
-                        player.movedirLeft = true;
-                        player.faceLeft = true;
-                        player.moving=true;
-                        player.direction(0);
-                    }
-                    if (key == 'd'  || key == 'D') {
-                        player.movedirRight=true;
-                        player.faceRight = true;
-                        player.moving=true;
-                        player.direction(1);
-                    }
-                    if (key == 'w'  || key == 'W') {
-                        player.movedirUp=true;
-                        player.faceUp = true;
-                        player.moving=true;
-                        player.direction(2);
-                    }
-                    if (key == 's' || key == 'S') {
-                        player.movedirDown=true;
-                        player.faceDown = true;
-                        player.moving=true;
-                        player.direction(3);
-                    }
-                    player.keyIsPressed = true;
+        if (player.keyIsPressed==false) {
+            if (keyPressed) {
+                if (key == 'a' || key == 'A') {
+                    player.movedirLeft = true;
+                    player.faceLeft = true;
+                    player.moving=true;
+                    player.direction(0);
                 }
-                if (key == 'i' || key == 'I') {
+                if (key == 'd'  || key == 'D') {
+                    player.movedirRight=true;
+                    player.faceRight = true;
+                    player.moving=true;
+                    player.direction(1);
+                }
+                if (key == 'w'  || key == 'W') {
+                    player.movedirUp=true;
+                    player.faceUp = true;
+                    player.moving=true;
+                    player.direction(2);
+                }
+                if (key == 's' || key == 'S') {
+                    player.movedirDown=true;
+                    player.faceDown = true;
+                    player.moving=true;
+                    player.direction(3);
+                }
+                player.keyIsPressed = true;
+            }
+            if (key == 'i' || key == 'I') {
 
-                    if (inventory.showInventory) {
-                        inventory.showInventory= false;
-                    } else {
-                        inventory.showInventory= true;
-                    }
+                if (inventory.showInventory) {
+                    inventory.showInventory= false;
+                } else {
+                    inventory.showInventory= true;
                 }
             }
-        
+        }
     }
 }
 

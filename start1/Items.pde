@@ -6,22 +6,33 @@ class Items {
     String speech;
     boolean pickedUp, showtext = true, showItem = true;
     boolean inGame;
+    boolean givenInQuest;
     boolean givenAway;
     boolean cashGiven;
-    Items(int x_, int y_, String name_, int id_) {
+    boolean textIsFinished;
+    Items(int x_, int y_, String name_, int id_, int inQuest_) {
         id = id_;
         itemsLocation = new PVector(x_, y_);
         name = name_;
         felter.add(itemsLocation);
+        if (inQuest_ == 1) {
+            givenInQuest = true;
+        } else if (inQuest_ == 0) {
+            givenInQuest = false;
+        }
     }
     void display() {
-        if (showtext) {
+        if (showtext && givenInQuest == false) {
 
             image(chest, itemsLocation.x*squareSize+location.x+5, itemsLocation.y*squareSize+location.y);
         }
     }
     void textmsg() {
-        speech = "Du har fundet \"" + name + "\"";
+        if (givenInQuest) {
+            speech = "Du har modtaget \"" + name + "\"";
+        } else {
+            speech = "Du har fundet \"" + name + "\"";
+        }
         pickedUp=true;
 
         fill(0, 200);
@@ -38,10 +49,23 @@ class Items {
             //println(speec.substring(0, counter));
             if (counter == speech.length()) {
                 counterInc=0;
+                textIsFinished = true;
+                if (triangleLocation.y < 751) {
+                    triangleLocation.z = 1;
+                }
+                if (triangleLocation.y > 761) {
+                    triangleLocation.z = -1;
+                }
+                triangleLocation.y += triangleLocation.z;
+                fill(255);
+                triangle(triangleLocation.x, triangleLocation.y, triangleLocation.x-10, triangleLocation.y-20, triangleLocation.x+10, triangleLocation.y-20);
             }
         }
 
         counter+=counterInc;
+        if (mousePressed && textIsFinished) {
+            showtext = false;
+        }
     }
 
     void removeItem() {
