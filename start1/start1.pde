@@ -1,4 +1,4 @@
-
+//
 Player player;
 Shop shop;
 Penge penge;
@@ -37,6 +37,7 @@ float squareSize;
 
 ArrayList<PVector> felter = new ArrayList<PVector>();
 PVector pos;
+
 Table obstacleTable;
 Table NPCTable;
 Table NPCQuestTable;
@@ -60,20 +61,18 @@ void setup() {
     images();
 
     coords();
-    npc = new ArrayList<NPC>();
+    npc = new ArrayList<NPC>(); 
     items = new ArrayList<Items>();
     inventory = new Inventory();
     Tables();
     shop.shopItemsCoords_();
     inventory.inventoryItemsCoords_();
     player = new Player();
-    for (int i = 0; i < player.itemsPicked.length; i++) {
-        player.itemsPicked[i] = 100;
-    }
-    penge = new Penge (99999999);
+    
+    penge = new Penge (0);
     font = createFont("font.ttf", 60);
 }
-void Tables() { 
+void Tables() { //I denne funktion bliver alle alle CSV filerne loadet
     NPCTable = loadTable("NPCID.csv", "header");
     for (TableRow row : NPCTable.rows()) {
         npc.add(new NPC(row.getInt("id"), row.getInt("x"), row.getInt("y"), row.getInt("picture")));
@@ -94,7 +93,7 @@ void Tables() {
         }
     }
 }
-void images() {
+void images() { //I denne funktion bliver alle billederne indlæst og deres størrelse bliver
     map = loadImage("/sprites/pic.png");
     coin = loadImage("/sprites/coins.png");
     textBubble = loadImage("/sprites/textBubble.png");

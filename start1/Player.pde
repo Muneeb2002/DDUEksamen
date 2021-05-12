@@ -24,6 +24,9 @@ class Player {
     int[] NPCInQuest;
 
     Player() {
+        for (int i = 0; i < itemsPicked.length; i++) {
+            itemsPicked[i] = 100;
+        }
     }
     void display() {
         if (current == 4) {
@@ -87,10 +90,11 @@ class Player {
         for (int j =0; j<felter.size(); j++) { 
 
             //UP
-            if (width/2-location.x > felter.get(j).x*squareSize-playerDia*0.4 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia*0.4
-                && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.4 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.4+col) {
+            if (width/2-location.x > felter.get(j).x*squareSize-playerDia*0.3 && width/2-location.x < felter.get(j).x*squareSize + squareSize + playerDia*0.3
+                && height/2-location.y > felter.get(j).y*squareSize-playerDia*0.3 && height/2-location.y < felter.get(j).y*squareSize + squareSize + playerDia*0.3+col) {
                 itemProx(j);
                 dirUp = false;
+                println("UP");
                 npcProx(j);
             }
             //Down
