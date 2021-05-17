@@ -23,49 +23,62 @@ class NPC {
 
 
     void Speech() { // Det koden her gør at den tager data fra NPC tabellen, og vælger hvilken tekst der skal siges af NPCen
-        //Vi har valgt at kunden ikke har behov for at vide hvordan lige præcis denne her del af koden fungere fordi at
-        //kunden ikke har behov at vide hvordan system fungere og vidre udvikle på det her "Perfekte" system. 
-        if (shop.shopSpeeking == false) {
+        if (shop.shopSpeeking == false) { // tjekker om spilleren shoppen er i gang med at snakke(kun når man snakker med shoppen er den her sandt)
             for (TableRow row : NPCQuestTable.rows()) {
+                //if statement tjekker om speechen er quest relateret eller ej, og om quest nummeret fra databasen er en mindre end det nuværende quest nummer og om id'en passer 
                 if (row.getInt("questRelated") == 1 && row.getInt("questNumber")-1 == player.QuestNumber && row.getInt("NPCid") == id) {
-                    if (row.getInt("number") <= row.getInt("of") && speechOf == row.getInt("number")) {
 
+                    if (row.getInt("number") <= row.getInt("of") && speechOf == row.getInt("number")) {
+                        //Tjekker om player.questcomp = 0, altså man har klaret 0% af questen
                         if ( row.getInt("start")-1 == player.questComp &&  row.getInt("start")-1 == 0  ) {
                             player.questActive = true;
                             for (TableRow rows : questTable.rows()) {
-                                if (rows.getInt("questNumber")-1 == player.QuestNumber) {
+                                //tjekker om quest nummer -1 er lig med player quest nummer
+                                if (rows.getInt("questNumber")-1 == player.QuestNumber) { 
+                                    //flyder arraysne de NPCer og items man skal være hos/ samle op for at klare questen
                                     player.itemsNeeded = int(splitTokens(rows.getString("items"), ","));
                                     player.NPCInQuest = int(splitTokens(rows.getString("NPCsInQuest"), ","));
                                 }
                             }
+                            //sender queststring til show SPeech funktionen
                             showSpeech(row.getString("questString"));
+                            // gør questcomp en større
                             if (row.getInt("of") == speechOf) {
                                 player.questComp = row.getInt("start");
                             }
                         }
+                        // viser tekst questen for den næste del af questen og dem før 
                         if (row.getInt("start")-1 <= player.questComp && player.questActive && player.questComp != row.getInt("outOf")) {
+
                             if (row.getInt("start")-1 == player.questComp) {
+                                //hvis det er den næste del så bliver den større
                                 player.questComp = row.getInt("start");
                             }
                             showSpeech(row.getString("questString"));
                         }
+                        //tjekker om man er noget til slutningen af questen
                         if (player.questComp == row.getInt("outOf") && player.questActive) {
+                            //sortere items man har fundet så det ikke gør nogen forskel hvilken række følge man finder tingene
                             player.itemsPicked = sort(player.itemsPicked);
+                            //laver en subInt der er ligeså lang som listen af items man har brug for, grunden til det er 
+                            // at listen af times man har er 9 lang og nogle gange skal man ikke bruge 9 ting
                             int[] subInt = new int[player.itemsNeeded.length];
                             boolean ens = true;
                             for (int i = 0; i < player.itemsNeeded.length; i++) {
                                 subInt[i]=player.itemsPicked[i];
                             }
+                            //sammenligner de to arrays, hvis de ikke er ens så bryder den loopet og begynder på den næste del af koden
                             for (int i = 0; i < player.itemsNeeded.length; i++) {
                                 if (player.itemsNeeded[i]!=subInt[i]) { 
                                     ens = false; 
                                     break;
                                 }
                             }
+                           
                             if (ens) {
                                 showSpeech(row.getString("questString"));
 
-
+                                //Når man trykker en til gang så genstarter den værdierne og man får sin reward
                                 if (row.getInt("of")+1 == speechOf) {
                                     done = true;
                                     player.reward = row.getInt("reward");
@@ -107,7 +120,8 @@ class NPC {
                             }
                         }
                     }
-                } else if (row.getInt("questRelated") == 0 && row.getInt("NPCid") == id) {
+                    //den her else if og koden i den sørger for at NPCerne der ikke er med i questen godt kan snakke også selv om de ikke er i en quest, når quest er active
+                } else if (row.getInt("questRelated") == 0 && row.getInt("NPCid") == id) { 
                     if (player.questActive) {
                         boolean notIt = true;
                         for (int i = 0; i <  player.NPCInQuest.length; i++) {
@@ -119,6 +133,7 @@ class NPC {
                         if (notIt) {
                             showSpeech(row.getString("nonQuestString"));
                         }
+                        //sørger for at når questen ikke er activ at alle siger noget
                     } else if (player.questActive == false) {
                         showSpeech(row.getString("nonQuestString"));
                     }
