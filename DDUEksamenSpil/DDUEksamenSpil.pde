@@ -1,4 +1,3 @@
-//
 Player player;
 Shop shop; 
 Penge penge;
@@ -47,6 +46,7 @@ Table shopTable;
 Table itemsTable;
 Table questItemTable;
 Table storyTable;
+Table instructionsTable;
 
 //booleans der styrer  skræmene der bliver vist(om man spillet er begyndt eller det start skærm osv)
 boolean showStartScreen = true;
@@ -96,6 +96,7 @@ void tables() { //I denne funktion bliver alle alle CSV filerne loadet
             items.add(new Items(row.getInt("x"), row.getInt("y"), row.getString("name"), row.getInt("itemNr"), row.getInt("inQuest")));
         }
     }
+    instructionsTable = loadTable("instruction.csv", "header");
 }
 void images() { //I denne funktion bliver alle billederne indlæst og deres størrelse bliver
     map = loadImage("/sprites/pic.png");
@@ -171,7 +172,7 @@ void draw() {
             translate(width/2, height/2);
             player.display();
             popMatrix();
-            
+
             penge.display(); // køre display funktionen i penge klassen
             player.collision(); //laver collision i player klassen
             player.move(); // laver bevægelse i player klassen
@@ -222,7 +223,7 @@ void startScreen() {
         rect(width/4, height/3, 2*(width/4), 50);
         rect(width/4, 60+(height/3), 2*(width/4), 50);
         rect(width/4, 120+(height/3), 2*(width/4), 50);
-        fill(0, 0, 255);
+        fill(0);
         //skriver knappernes tekst
         textSize(20);
         text("PLAY", width/2, 30+(height/3));
@@ -249,9 +250,9 @@ void startScreen() {
 }
 void HowToPlay() {
     // laver instruktions skærmen
-    fill(255, 150);
+    fill(255, 150);    
     rect(100, 100, 600, 600);
-    fill(255);
+    fill(0);
     textSize(20);
     textAlign(LEFT);
     text("X", 105, 120);
@@ -264,6 +265,11 @@ void HowToPlay() {
     textAlign(CENTER);
     textSize(30);
     text("Instruktioner", width/2, 130);
+    textSize(20);
+    textAlign(LEFT);
+    for (TableRow row : instructionsTable.rows()) {
+        text(row.getString("instruction"), 110, 150, 590, 800);
+    }
 }
 void StoryScreen() {
     background(0);
