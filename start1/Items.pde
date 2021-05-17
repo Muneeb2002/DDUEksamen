@@ -22,19 +22,18 @@ class Items {
         }
     }
     void display() {
-        if (showtext && givenInQuest == false) {
-
+        if (showtext && givenInQuest == false) { // tegner npcen, på den plads hvis den ikke gives i en quest og ikke er fundet endnu
             image(chest, itemsLocation.x*squareSize+location.x+5, itemsLocation.y*squareSize+location.y);
         }
     }
-    void textmsg() {
-        if (givenInQuest) {
+    void textmsg() { // skriver teksten der popper op når man har fundet en item
+        if (givenInQuest) { // tjekker om enten finder itemen eller modtager den fra en NPC
             speech = "Du har modtaget \"" + name + "\"";
         } else {
             speech = "Du har fundet \"" + name + "\"";
         }
         pickedUp=true;
-
+        //tegner feltet hvor teksten står
         fill(0, 200);
         rect(5, height*0.55, width-10, height*0.45-5);
         noFill();
@@ -42,14 +41,16 @@ class Items {
         strokeWeight(5);
         rect(5, height*0.55, width-10, height*0.45-5);
         noStroke();
+        //skriver teksten
         if (counter <= speech.length()) {
             fill(255);
             textSize(20);
             text(speech.substring(0, counter), 20, height*0.6, width-30, height);
-            //println(speec.substring(0, counter));
+            //tjekker om teksten er færdig med at blive vist
             if (counter == speech.length()) {
                 counterInc=0;
                 textIsFinished = true;
+                //tegner en trekant der går op og ned for at indikere at teksten er færdig og at man venter på user input
                 if (triangleLocation.y < 751) {
                     triangleLocation.z = 1;
                 }
@@ -63,12 +64,12 @@ class Items {
         }
 
         counter+=counterInc;
-        if (mousePressed && textIsFinished) {
+        if (mousePressed && textIsFinished) { // sørger for at teksten stopper med at blive vist
             showtext = false;
         }
     }
 
-    void removeItem() {
+    void removeItem() { // fjerner itemen fra spillet, hvis den bliver givet væk for at klare en quest
         if (givenAway) {
             items.remove(this);
         }

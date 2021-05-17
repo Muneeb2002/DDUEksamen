@@ -12,17 +12,19 @@ class NPC {
 
     boolean done;
     NPC(int id_, int locX, int locY, int picture) {
-        NPClocation = new PVector(locX, locY);
+        NPClocation = new PVector(locX, locY); // tilføjer npcens locX/Y til NPClocation PVectoren
         id = id_;
         pic = picture;
     }
 
-    void display() {
+    void display() { // tegner npcen  på dens position og med det valgte design til npcen
         image(npcDesign[pic], NPClocation.x*squareSize+location.x-5, NPClocation.y*squareSize+location.y-10);
     }
 
 
-    void Speech() {
+    void Speech() { // Det koden her gør at den tager data fra NPC tabellen, og vælger hvilken tekst der skal siges af NPCen
+        //Vi har valgt at kunden ikke har behov for at vide hvordan lige præcis denne her del af koden fungere fordi at
+        //kunden ikke har behov at vide hvordan system fungere og vidre udvikle på det her "Perfekte" system. 
         if (shop.shopSpeeking == false) {
             for (TableRow row : NPCQuestTable.rows()) {
                 if (row.getInt("questRelated") == 1 && row.getInt("questNumber")-1 == player.QuestNumber && row.getInt("NPCid") == id) {
@@ -93,13 +95,6 @@ class NPC {
                     if (row.getInt("of")+1==speechOf) {
                         player.isTalking = false;
                     }
-                    /*else if (row.getInt("of") > speechOf) {
-                     for (TableRow rows : NPCQuestTable.rows()) {
-                     if (row.getInt("questRelated") == 0 && row.getInt("NPCid") == id && player.questActive) {
-                     showSpeech(rows.getString("nonQuestString"));
-                     }
-                     }
-                     }*/
                     for (TableRow rows : itemsTable.rows()) {
 
                         if (rows.getInt("quest")-1==player.QuestNumber) {
@@ -131,17 +126,18 @@ class NPC {
             }
         }
     }
-    void showSpeech(String speech ) {
+    void showSpeech(String speech ) { // skriver den tekst som NPCen siger 
         image(textBubble, 5, height*0.55);
         player.isTalking = true;
-        if (counter <= speech.length()) {
+        if (counter <= speech.length()) { //tjekker om antallet af tegn vist er mindre end eller lig med antallet af tegn i storySpeech stringen 
             fill(0);
             textSize(20);
             text(speech.substring(0, counter), 50, height*0.6, width-100, height);
-            //println(speec.substring(0, counter));
-            if (counter == speech.length()) {
+
+            if (counter == speech.length()) { // tjekker om antallet af tegn vist er lig med antallet af tegn i storySpeech stringen 
                 counterInc=0;
                 speechIsFinished = true;
+                //tegner en trekant der går op og ned for at indikere at teksten er færdig og at man venter på user input
                 if (triangleLocation.y < 751) {
                     triangleLocation.z = 1;
                 }
@@ -154,8 +150,7 @@ class NPC {
             }
         }
         counter+=counterInc;
-        if (mousePressed && speechIsFinished) {
-            //    counter = speech.length()-1;
+        if (mousePressed && speechIsFinished) { //sørger for at tekst skriveren bliver genstartet 
             if (speechIsFinished) {
                 speechOf++; 
                 speechIsFinished = false;
