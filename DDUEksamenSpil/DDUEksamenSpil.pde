@@ -66,7 +66,7 @@ void setup() {
     npc = new ArrayList<NPC>(); 
     items = new ArrayList<Items>();
     inventory = new Inventory();
-    Tables();
+    tables();
     shop.shopItemsCoords_();
     inventory.inventoryItemsCoords_();
     player = new Player();
@@ -74,7 +74,7 @@ void setup() {
     penge = new Penge (0);
     font = createFont("font.ttf", 60);
 }
-void Tables() { //I denne funktion bliver alle alle CSV filerne loadet
+void tables() { //I denne funktion bliver alle alle CSV filerne loadet
     NPCTable = loadTable("NPCID.csv", "header");
     for (TableRow row : NPCTable.rows()) { // vi køre i gennem hele tabbellen
         // tilføjer objekter til NPC classen ud fra data hentet fra CSV
@@ -155,7 +155,7 @@ void draw() {
         }
         if (transitionScreen) {
             //kører transitionScreen funktionen
-            TransitionScreen();
+            transitionScreen();
         }
         if (gameBegun) { // hvis spillet er begyndt
             pushMatrix();
@@ -309,7 +309,7 @@ void StoryScreen() {
 
     storyCounter+=storyCounterInc;
 }
-void TransitionScreen() {
+void transitionScreen() {
     image(map, location.x, location.y);
     // tegner alle npcer og items
     for (NPC n : npc) {

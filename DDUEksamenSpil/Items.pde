@@ -4,7 +4,7 @@ class Items {
     float itemsDia = squareSize;
     int counter, counterInc = 1, id;
     String speech;
-    boolean pickedUp, showtext = true, showItem = true;
+    boolean pickedUp, showText = true, showItem = true;
     boolean inGame;
     boolean givenInQuest;
     boolean givenAway;
@@ -22,7 +22,7 @@ class Items {
         }
     }
     void display() {
-        if (showtext && givenInQuest == false) { // tegner npcen, på den plads hvis den ikke gives i en quest og ikke er fundet endnu
+        if (showText && givenInQuest == false) { // tegner npcen, på den plads hvis den ikke gives i en quest og ikke er fundet endnu
             image(chest, itemsLocation.x*squareSize+location.x+5, itemsLocation.y*squareSize+location.y);
         }
     }
@@ -65,7 +65,7 @@ class Items {
 
         counter+=counterInc;
         if (mousePressed && textIsFinished) { // sørger for at teksten stopper med at blive vist
-            showtext = false;
+            showText = false;
         }
     }
 

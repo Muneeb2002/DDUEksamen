@@ -159,11 +159,11 @@ class Player {
                     if (felter.get(j) == i.itemsLocation) {
 
                         if (dirRight && dirLeft && dirDown && dirUp) {
-                            i.showtext = false;
+                            i.showText = false;
                             felter.remove(j);
                             break;
                         }
-                        if (i.showtext == false) {
+                        if (i.showText == false) {
                             felter.remove(j);
                             break;
                         }
@@ -202,7 +202,7 @@ class Player {
                             i.cashGiven = true; // sørger for at det sker kun 1 gang
                         }
                     }
-                    if (i.showtext) {
+                    if (i.showText) {
                         if (i.pickedUp == false && i.cashGiven == false) {
                             inventory.itemsNumber++; // tilføjer antallet af items i inventoryen
                         }
